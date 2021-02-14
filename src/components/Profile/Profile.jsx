@@ -8,9 +8,10 @@ const Profile = (props) => {
     <div>
         <ProfileInfo/>
         <MyPosts chat = {props.chat}
-                 addPost = { props.addPost }
-                 updateNewPostText = { props.updateNewPostText }
-                 textareaValue = { props.textareaValue } />
+                 textareaValue = { props.textareaValue }
+                 // addPost = { props.addPost }
+                 // updateNewPostText = { props.updateNewPostText }
+                 dispatch = { props.dispatch } />
     </div>
   )
 }

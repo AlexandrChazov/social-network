@@ -15,14 +15,16 @@ function App(props) {
         <Navbar friends = { props.store.sidebar }/>
         <div className="app-wrapper-content">
           <Route path="/Profile" render={ () => <Profile  chat = {props.store.profilePage.chats}
-                                                          addPost = { props.addPost }
-                                                          updateNewPostText = { props.updateNewPostText }
-                                                          textareaValue = { props.store.profilePage.textareaValue }/> }/>
+                                                          textareaValue = { props.store.profilePage.textareaValue }
+                                                          // updateNewPostText = { props.updateNewPostText }
+                                                          // addPost = { props.addPost }
+                                                          dispatch = { props.dispatch } /> }/>
           <Route path="/Dialogs" render={ () => <Dialogs dialog = {props.store.dialogsPage.dialogs}
                                                          message = {props.store.dialogsPage.messages}
-                                                         addMessage = { props.addMessage }
-                                                         updateMessageText = { props.updateMessageText }
-                                                         newMessage = {props.store.dialogsPage.newMessage } /> }/>
+                                                         newMessage = {props.store.dialogsPage.newMessage }
+                                                         // addMessage = { props.addMessage }
+                                                         // updateMessageText = { props.updateMessageText }
+                                                         dispatch = { props.dispatch } /> }/>
           <Route path="/News" render={ () => <News/> }/>
         </div>
       </div>
