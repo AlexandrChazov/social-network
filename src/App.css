@@ -4,29 +4,17 @@
   padding: 0;
 }
 
-.App {
+.app {
   width: 1200px;
   margin: 0 auto;
-  text-align: center;
   background-color: #282c34;
   display: grid;
+  grid-template-areas: "h h" "n c";
+  grid-template-rows: 60px 1fr;
   grid-template-columns: 2fr 10fr;
 }
 
-.header {
-  grid-column-start: 1;
-  grid-column-end: 3;
-  background-color: chartreuse;
-}
-
-.navbar {
-  background-color: coral;
-}
-
-.navbar ul li {
-  list-style-type: none;
-}
-
-.profile {
-  background-color: cyan;
+.app-wrapper-content {
+  grid-area: c;
+  padding: 10px;
 }

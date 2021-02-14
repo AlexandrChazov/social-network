@@ -1,0 +1,13 @@
+.img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.dialog {
+  margin-right: 50px;
+}
+
+.dialog a {
+  color: white;
+}

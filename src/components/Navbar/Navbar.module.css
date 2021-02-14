@@ -1,0 +1,16 @@
+.navbar {
+  background-color: coral;
+  grid-area: n;
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  color: darkmagenta;
+  text-decoration: none;
+  padding: 5px ;
+}
+
+.item.active {
+  color: white;
+}
