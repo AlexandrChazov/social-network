@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './MyPosts.module.css';
 import Post from "./Post/Post";
+import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../store/profile-reducer";
 
 const MyPosts = (props) => {
 
@@ -9,21 +10,12 @@ const MyPosts = (props) => {
   const newPostElement = React.createRef();
 
   const addPost = () => {
-    // props.addPost();
-    const action = {
-      type: "ADD-POST"
-    };
-    props.dispatch(action);
+    props.dispatch(addPostActionCreator());
   }
 
   const onPostChange = () => {
     const text = newPostElement.current.value;
-    const action = {
-      type: "UPDATE-NEW-POST-TEXT",
-      newPost: text,
-    };
-    // props.updateNewPostText(text);
-    props.dispatch(action);
+    props.dispatch(updateNewPostTextActionCreator(text));
   }
 
   return (

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import store from "./state/state";
+import store from "./store/store";
 import App from "./App";
 
 let rerenderEntireTrees = () => {
@@ -10,10 +10,6 @@ let rerenderEntireTrees = () => {
       <React.StrictMode>
         <App store = { store.getState() }
              dispatch = { store.dispatch.bind(store) }
-             // addPost = { store.addPost.bind(store) }
-             // updateNewPostText = { store.updateNewPostText.bind(store) }
-             // addMessage = { store.addMessage.bind(store) }
-             // updateMessageText = { store.updateMessageText.bind(store) }
         />
       </React.StrictMode>,
       document.getElementById('root')

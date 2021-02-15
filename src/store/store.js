@@ -1,3 +1,7 @@
+import profileReducer from "./profile-reducer";
+import dialogsReducer from "./dialogs-reducer";
+import sidebarReducer from "./sidebar-reducer";
+
 const store = {
   _state: {
     profilePage: {
@@ -42,59 +46,12 @@ const store = {
     this._callSubscriber = observer;
   },
 
-  // addPost() {
-  //   this._state.profilePage.chats.push({
-  //     id: 5,
-  //     mess: this._state.profilePage.textareaValue,
-  //     likesCount: 0
-  //   })
-  //   this._state.profilePage.textareaValue = "";
-  //   this._callSubscriber();
-  // },
-  //
-  // updateNewPostText(newPost) {
-  //   this._state.profilePage.textareaValue = newPost;
-  //   this._callSubscriber();
-  // },
-  //
-  // addMessage() {
-  //   this._state.dialogsPage.messages.push({
-  //     message: this._state.dialogsPage.newMessage
-  //   })
-  //   this._state.dialogsPage.newMessage = "";
-  //   this._callSubscriber();
-  // },
-  //
-  // updateMessageText(newMessage) {
-  //   this._state.dialogsPage.newMessage = newMessage;
-  //   this._callSubscriber();
-  // },
-
   dispatch(action) {
-    if (action.type === "ADD-POST") {
-      this._state.profilePage.chats.push({
-        id: 5,
-        mess: this._state.profilePage.textareaValue,
-        likesCount: 0
-      })
-      this._state.profilePage.textareaValue = "";
-      this._callSubscriber();
-    } else
-    if (action.type === "UPDATE-NEW-POST-TEXT") {
-      this._state.profilePage.textareaValue = action.newPost;
-      this._callSubscriber();
-    } else
-    if (action.type === "ADD-MESSAGE") {
-      this._state.dialogsPage.messages.push({
-        message: this._state.dialogsPage.newMessage
-      })
-      this._state.dialogsPage.newMessage = "";
-      this._callSubscriber();
-    } else
-    if (action.type === "UPDATE-MESSAGE-TEXT") {
-      this._state.dialogsPage.newMessage = action.newMessage;
-      this._callSubscriber();
-    }
+    profileReducer(this._state.profilePage, action);
+    dialogsReducer(this._state.dialogsPage, action);
+    sidebarReducer(this._state, action);
+
+    this._callSubscriber();
   }
 }
 
