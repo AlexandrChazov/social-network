@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './MyPosts.module.css';
 import Post from "./Post/Post";
-import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../store/profile-reducer";
 
 const MyPosts = (props) => {
 
@@ -9,13 +8,13 @@ const MyPosts = (props) => {
 
   const newPostElement = React.createRef();
 
-  const addPost = () => {
-    props.dispatch(addPostActionCreator());
-  }
-
   const onPostChange = () => {
     const text = newPostElement.current.value;
-    props.dispatch(updateNewPostTextActionCreator(text));
+    props.updateNewPostText(text);
+  }
+
+  const onAddPost = () => {
+    props.addPost();
   }
 
   return (
@@ -26,7 +25,7 @@ const MyPosts = (props) => {
             <textarea onChange = { onPostChange } ref = { newPostElement } name="write" cols="30" rows="10"  value = { props.textareaValue }/>
           </div>
           <div>
-            <button onClick = { addPost }>Add post</button>
+            <button onClick = { onAddPost }>Add post</button>
           </div>
         </div>
         <div className={styles.posts}>

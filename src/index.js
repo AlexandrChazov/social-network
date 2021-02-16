@@ -8,7 +8,7 @@ import App from "./App";
 let rerenderEntireTrees = () => {
   ReactDOM.render(
       <React.StrictMode>
-        <App store = { store.getState() }
+        <App store = { store }
              dispatch = { store.dispatch.bind(store) }
         />
       </React.StrictMode>,
