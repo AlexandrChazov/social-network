@@ -8,7 +8,17 @@ export const updateNewPostTextActionCreator = (text) => ({
 
 export const addPostActionCreator = () => ({ type: ADD_POST });
 
-const profileReducer = (state, action) => {
+const initialState = {
+  textareaValue: 'IT-kamasutra.com',
+  chats : [
+    {id: 1, mess: "Hello, how are you?", likesCount: 10},
+    {id: 2, mess: "What are you wont?", likesCount: 10},
+    {id: 3, mess: "What are hell are you doing?", likesCount: 20},
+    {id: 4, mess: "dada", likesCount: 15}
+  ]
+}
+
+const profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_NEW_POST_TEXT:
       state.textareaValue = action.newPost;
