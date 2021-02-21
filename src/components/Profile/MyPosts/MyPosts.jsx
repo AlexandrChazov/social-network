@@ -4,7 +4,7 @@ import Post from "./Post/Post";
 
 const MyPosts = (props) => {
 
-  const chat = props.chat.map( m => <Post message={m.mess} likesCount={m.likesCount}/>);
+  const chat = props.profilePage.chats.map( m => <Post message={m.mess} likesCount={m.likesCount}/>);
 
   const newPostElement = React.createRef();
 
@@ -22,7 +22,7 @@ const MyPosts = (props) => {
         <h3>MyPosts</h3>
         <div>
           <div>
-            <textarea onChange = { onPostChange } ref = { newPostElement } name="write" cols="30" rows="10"  value = { props.textareaValue }/>
+            <textarea onChange = { onPostChange } ref = { newPostElement } name="write" cols="30" rows="10"  value = { props.profilePage.textareaValue }/>
           </div>
           <div>
             <button onClick = { onAddPost }>Add post</button>

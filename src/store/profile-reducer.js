@@ -20,17 +20,22 @@ const initialState = {
 
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_NEW_POST_TEXT:
-      state.textareaValue = action.newPost;
-      return state;
-    case ADD_POST:
-      state.chats.push({
-        id: 5,
-        mess: state.textareaValue,
-        likesCount: 0
-      })
-      state.textareaValue = "";
-      return state;
+    case UPDATE_NEW_POST_TEXT: {
+      return {...state,
+        textareaValue: action.newPost
+      };
+    }
+    case ADD_POST: {
+      return {...state,
+        chats: [...state.chats,
+          {
+            id: 5,
+            mess: state.textareaValue,
+            likesCount: 0
+          }],
+        textareaValue: ""
+      };
+    }
     default:
       return state;
   }
