@@ -11,7 +11,7 @@ import {connect} from "react-redux";
 
 const mapStateToProps = (state) => {
   return {
-    friends: state.sidebar
+    friends: state.sidebar.friends
   }
 }
 

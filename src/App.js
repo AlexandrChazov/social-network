@@ -6,6 +6,7 @@ import News from "./components/News/News";
 import { BrowserRouter, Route } from "react-router-dom";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import NavbarContainer from "./components/Navbar/NavbarContainer";
+import UsersContainer from "./components/Users/UsersContainer";
 
 function App(props) {
   return (
@@ -14,9 +15,10 @@ function App(props) {
         <Header/>
         <NavbarContainer />
         <div className="app-wrapper-content">
-          <Route path="/Profile" render={ () => <Profile /> }/>
-          <Route path="/Dialogs" render={ () => <DialogsContainer /> }/>
-          <Route path="/News" render={ () => <News/> }/>
+          <Route path="/Profile" render={ () => <Profile /> } />
+          <Route path="/Dialogs" render={ () => <DialogsContainer /> } />
+          <Route path="/News" render={ () => <News /> } />
+          <Route path="/Users" render={ () => <UsersContainer /> } />
         </div>
       </div>
     </BrowserRouter>
