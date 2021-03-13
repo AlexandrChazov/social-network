@@ -30,9 +30,9 @@ export const setCurrentPage = (page) => ({
   currentPage: page,
 })
 
-export const toggleIsFetching = (boolean) => ({
+export const toggleIsFetching = (isFetching) => ({
   type: TOGGLE_FETCHING,
-  isFetching: boolean,
+  isFetching: isFetching,
 })
 
 const initialState = {

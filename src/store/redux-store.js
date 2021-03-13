@@ -13,4 +13,6 @@ let reducers = combineReducers({
 
 let store = createStore(reducers);
 
+window.store = store; // чтобы посмотреть store в консоли пишем store.getState()
+
 export default store;

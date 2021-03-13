@@ -1,5 +1,6 @@
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+const SET_USER_PROFILE = "SET_USER_PROFILE"
 
 export const updateNewPostTextActionCreator = (text) => ({
   type: UPDATE_NEW_POST_TEXT,
@@ -8,6 +9,11 @@ export const updateNewPostTextActionCreator = (text) => ({
 
 export const addPostActionCreator = () => ({ type: ADD_POST });
 
+export const setUserProfile = (profile) => ({
+  type: SET_USER_PROFILE,
+  profile: profile
+})
+
 const initialState = {
   textareaValue: 'IT-kamasutra.com',
   chats : [
@@ -15,7 +21,8 @@ const initialState = {
     {id: 2, mess: "What are you wont?", likesCount: 10},
     {id: 3, mess: "What are hell are you doing?", likesCount: 20},
     {id: 4, mess: "dada", likesCount: 15}
-  ]
+  ],
+  profile: null
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -35,6 +42,12 @@ const profileReducer = (state = initialState, action) => {
           }],
         textareaValue: ""
       };
+    }
+    case SET_USER_PROFILE: {
+      return {
+        ...state,
+        profile: action.profile
+      }
     }
     default:
       return state;
