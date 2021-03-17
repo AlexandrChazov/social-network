@@ -52,35 +52,6 @@ const mapStateToProps = ( state ) => {
   }
 }
 
-// const mapDispatchToProps = ( dispatch ) => {
-//   return {
-//     follow: (userId) => {
-//       const action = followAC(userId);
-//       dispatch(action);
-//     },
-//     unFollow: (userId) => {
-//       const action = unFollowAC(userId);
-//       dispatch(action);
-//     },
-//     setUsers: (users) => {
-//       const action = setUsersAC(users);
-//       dispatch(action);
-//     },
-//     setTotalUsersCount: (number) => {
-//       const action = setTotalUsersCountAC(number);
-//       dispatch(action);
-//     },
-//     setCurrentPage: (number) => {
-//       const action = setCurrentPageAC(number);
-//       dispatch(action);
-//     },
-//     toggleIsFetching: (boolean) => {
-//       const action = isFetchingAC(boolean);
-//       dispatch(action);
-//     }
-//   }
-// }
-
 export default connect(mapStateToProps, {
   follow,
   unFollow,

@@ -2,3 +2,11 @@
   grid-area: h;
   background-color: chartreuse;
 }
+
+.login {
+  float: right;
+}
+
+.login a {
+  color: white;
+}
