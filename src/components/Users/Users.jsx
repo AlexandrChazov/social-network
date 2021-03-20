@@ -2,7 +2,8 @@ import React from "react";
 import styles from "./Users.module.css";
 import userLogo from "../../assets/images/logo.jpg"
 import {NavLink} from "react-router-dom";
-import * as axios from "axios";
+import {usersAPI} from "../../api/api";
+import {setUsersWithToggleFollowing} from "../../store/users-reducer";
 
 const Users = (props) => {
 
@@ -23,8 +24,7 @@ const Users = (props) => {
         }
       </div>
       {
-        props.users.map((e) =>
-          <div key = { e.id }>
+        props.users.map((e) => <div key = { e.id }>
             <div>
               <NavLink to ={`Profile/${e.id}`} >
                 <img src={e.photos.small? e.photos.small : userLogo} className={styles.userImg} alt="photo"/>
@@ -33,30 +33,32 @@ const Users = (props) => {
             <div>
               { e.followed
                   ? <button onClick = { () => {
-                      axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${e.id}`, {
-                        withCredentials: true,
-                        headers: {
-                        "API-KEY": "0986e0b3-b5b7-484b-97d9-f8c2f2bb89fa"
-                        }
-                      }).then((response) => {
-                        if (response.data.resultCode === 0) {
-                          props.unFollow(e.id)
+                    props.toggleFollowing(true, e.id);
+                    usersAPI.unFollow(e.id).then((data) => {
+                        if (data.resultCode === 0) {
+                          props.unFollow(e.id);
+                          props.toggleFollowing(false, e.id);
                         }
                       })
-                  } }>unFollow</button>
+                  } } disabled = {
+                    props.usersWithToggleFollowing.some(el => {
+                      return el === e.id
+                    })
+                  } >unFollow</button>
 
                   : <button onClick = { () => {
-                      axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${e.id}`, {}, {
-                        withCredentials: true,
-                        headers: {
-                          "API-KEY": "0986e0b3-b5b7-484b-97d9-f8c2f2bb89fa"
-                        }
-                      }).then((response) => {
-                        if (response.data.resultCode === 0) {
-                          props.follow(e.id)
-                        }
-                      })
-                  } }>follow</button>
+                    props.toggleFollowing(true, e.id);
+                    usersAPI.follow(e.id).then((data) => {
+                      if (data.resultCode === 0) {
+                        props.follow(e.id);
+                        props.toggleFollowing(false, e.id);
+                      }
+                    })
+                  } } disabled = {
+                    props.usersWithToggleFollowing.some(el => {
+                      return el === e.id
+                    })
+                  } >follow</button>
               }
             </div>
             <div>
