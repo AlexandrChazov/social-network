@@ -1,3 +1,5 @@
+import {usersAPI} from "../api/api";
+
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 const SET_USER_PROFILE = "SET_USER_PROFILE"
@@ -23,6 +25,14 @@ const initialState = {
     {id: 4, mess: "dada", likesCount: 15}
   ],
   profile: null
+}
+
+export const getProfileInfo = (id) => {
+  return (dispatch) => {
+    usersAPI.getProfileInfo(id).then(response => {
+      dispatch(setUserProfile(response));
+    })
+  }
 }
 
 const profileReducer = (state = initialState, action) => {

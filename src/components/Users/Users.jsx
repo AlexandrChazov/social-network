@@ -2,8 +2,6 @@ import React from "react";
 import styles from "./Users.module.css";
 import userLogo from "../../assets/images/logo.jpg"
 import {NavLink} from "react-router-dom";
-import {usersAPI} from "../../api/api";
-import {setUsersWithToggleFollowing} from "../../store/users-reducer";
 
 const Users = (props) => {
 
@@ -33,13 +31,7 @@ const Users = (props) => {
             <div>
               { e.followed
                   ? <button onClick = { () => {
-                    props.toggleFollowing(true, e.id);
-                    usersAPI.unFollow(e.id).then((data) => {
-                        if (data.resultCode === 0) {
-                          props.unFollow(e.id);
-                          props.toggleFollowing(false, e.id);
-                        }
-                      })
+                    props.unFollow(e.id);
                   } } disabled = {
                     props.usersWithToggleFollowing.some(el => {
                       return el === e.id
@@ -47,13 +39,7 @@ const Users = (props) => {
                   } >unFollow</button>
 
                   : <button onClick = { () => {
-                    props.toggleFollowing(true, e.id);
-                    usersAPI.follow(e.id).then((data) => {
-                      if (data.resultCode === 0) {
-                        props.follow(e.id);
-                        props.toggleFollowing(false, e.id);
-                      }
-                    })
+                    props.follow(e.id);
                   } } disabled = {
                     props.usersWithToggleFollowing.some(el => {
                       return el === e.id
