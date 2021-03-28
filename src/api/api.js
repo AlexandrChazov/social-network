@@ -24,15 +24,30 @@ export const usersAPI = {
       return response.data
     })
   },
-  setUserData() {
-    return instance.get(`auth/me`).then( response => {
-      return response.data
-    })
-  },
+}
+
+export const profileAPI = {
   getProfileInfo(userID) {
     return instance.get(`profile/${userID}`).then( response => {
       return response.data;
     })
+  },
+  getUserStatus(userID) {
+    return instance.get(`profile/status/${userID}`).then( response => {
+      return response.data;
+    })
+  },
+  updateStatus(status) {
+    return instance.put(`profile/status`, {status: status}).then(response => {
+      return response.resultCode;
+    })
   }
 }
 
+export const authAPI = {
+  setUserData() {
+    return instance.get(`auth/me`).then( response => {
+      return response.data
+    })
+  }
+}
