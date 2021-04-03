@@ -15,6 +15,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-const NavbarContainer = connect(mapStateToProps)(Navbar)
+export default connect(mapStateToProps)(Navbar)
 
-export default NavbarContainer;
+

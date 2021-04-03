@@ -7,10 +7,23 @@ const Header = (props) => {
     <div className={styles.header}>
       <div className={styles.login}>
         {props.isAuth
-            ? props.login
+            ? <Login login={props.login} deleteAuth={props.deleteAuth} />
             : <NavLink to = "/Login"> Login </NavLink>}
       </div>
     </div>
+  )
+}
+
+const Login = (props) => {
+  return (
+      <div>
+        <div>
+          {props.login}
+        </div>
+        <div>
+          <button onClick = {props.deleteAuth}> Log out</button>
+        </div>
+      </div>
   )
 }
 

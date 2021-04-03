@@ -1,4 +1,5 @@
 import React from "react";
+import { Form, Field } from 'react-final-form'
 
 const Login = (props) => {
   return (
@@ -6,27 +7,56 @@ const Login = (props) => {
         <h1>
           Login
         </h1>
-        <LoginForm />
+        <LoginForm authorization = {props.authorization} />
       </div>
   )
 };
 
 const LoginForm = (props) => {
   return (
-      <form>
-        <div>
-          <input placeholder="Login"></input>
-        </div>
-        <div>
-          <input placeholder="Password"/>
-        </div>
-        <div>
-          <input type="checkbox"/> remember
-        </div>
-        <div>
-          <button>Submit</button>
-        </div>
-      </form>
+      <Form
+          onSubmit = {(values) => {
+            props.authorization(values.login, values.password, values.rememberMe);
+          }}
+          render={({ handleSubmit, form, submitting, pristine, values }) => (
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <label>Login</label>
+                  <Field
+                      name="login"
+                      component="input"
+                      type="text"
+                      placeholder="Login"
+                  />
+                </div>
+                <div>
+                  <label>Password</label>
+                  <Field
+                      name="password"
+                      component="input"
+                      type="text"
+                      placeholder="Password"
+                  />
+                </div>
+                <div>
+                  <label>Remember</label>
+                  <Field name="rememberMe" component="input" type="checkbox" />
+                </div>
+                <div>
+                  <button type="submit" disabled={submitting || pristine}>
+                    Submit
+                  </button>
+                  <button
+                      type="button"
+                      onClick={form.reset}
+                      disabled={submitting || pristine}
+                  >
+                    Reset
+                  </button>
+                </div>
+              </form>
+          )}
+      />
   )
 }
 

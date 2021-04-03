@@ -49,5 +49,20 @@ export const authAPI = {
     return instance.get(`auth/me`).then( response => {
       return response.data
     })
+  },
+  userAuthorization(email, password, rememberMe) {
+    return instance.post(`auth/login`, {
+      email: email,
+      password: password,
+      rememberMe: rememberMe,
+      captcha: true
+    }).then( response => {
+      return response.data.resultCode
+    })
+  },
+  deleteAuthorization() {
+    return instance.delete(`auth/login`).then(response => {
+      return response.data
+    })
   }
 }

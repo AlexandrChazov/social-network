@@ -7,7 +7,7 @@ import NavbarContainer from "./components/Navbar/NavbarContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import Login from "./components/Login/Login";
+import LoginContainer from "./components/Login/LoginContainer";
 
 function App(props) {
   return (
@@ -20,7 +20,7 @@ function App(props) {
           <Route path="/Dialogs" render={ () => <DialogsContainer /> } />
           <Route path="/News" render={ () => <News /> } />
           <Route path="/Users" render={ () => <UsersContainer /> } />
-          <Route path="/Login" render={ () => <Login /> } />
+          <Route path="/Login" render={ () => <LoginContainer /> } />
         </div>
       </div>
     </BrowserRouter>
