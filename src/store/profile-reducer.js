@@ -1,21 +1,18 @@
 import {profileAPI} from "../api/api";
 
 const ADD_POST = "ADD-POST";
-const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_USER_STATUS = "SET_USER_STATUS";
 
-export const updateNewPostTextActionCreator = (text) => ({
-  type: UPDATE_NEW_POST_TEXT,
-  newPost: text,
-})
-
-export const addPostActionCreator = () => ({ type: ADD_POST });
+export const addPostActionCreator = (myMessage) => ({
+  type: ADD_POST,
+  myMessage: myMessage
+});
 
 export const setUserProfile = (profile) => ({
   type: SET_USER_PROFILE,
   profile: profile
-})
+});
 
 export const setUserStatus = (status) => ({
   type: SET_USER_STATUS,
@@ -62,20 +59,14 @@ export const updateStatus = (status) => {
 
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_NEW_POST_TEXT: {
-      return {...state,
-        textareaValue: action.newPost
-      };
-    }
     case ADD_POST: {
       return {...state,
         chats: [...state.chats,
           {
-            id: 5,
-            mess: state.textareaValue,
+            id: state.chats.length + 1,
+            mess: action.myMessage,
             likesCount: 0
           }],
-        textareaValue: ""
       };
     }
     case SET_USER_PROFILE: {
