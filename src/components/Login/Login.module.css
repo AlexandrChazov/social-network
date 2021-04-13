@@ -1,0 +1,14 @@
+.errorMessage {
+  color: red;
+}
+
+.redBorder {
+  border: red 2px solid;
+}
+
+.loginError {
+  color: red;
+  border: 1px solid red;
+  margin-top: 10px;
+  padding: 5px;
+}

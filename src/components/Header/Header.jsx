@@ -21,7 +21,7 @@ const Login = (props) => {
           {props.login}
         </div>
         <div>
-          <button onClick = {props.deleteAuth}> Log out</button>
+          <button onClick = {props.deleteAuth}>Log out</button>
         </div>
       </div>
   )

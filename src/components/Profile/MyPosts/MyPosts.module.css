@@ -9,3 +9,11 @@
 h3 {
   padding: 10px;
 }
+
+.errorMessage {
+  color: red
+}
+
+.redBorder {
+  border: 1px solid red
+}

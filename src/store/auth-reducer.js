@@ -1,34 +1,30 @@
 import React from "react";
 import {authAPI} from "../api/api";
 
-const SET_USER_AUTH = "SET_USER_AUTH";
-const AUTHORIZE = "AUTHORIZE";
-const DELETE_AUTHORIZE = "DELETE_AUTHORIZE"
+const SET_AUTH_USER_DATA = "SET_AUTH_USER_DATA";
+const SET_LOGIN_ERROR = "SET_LOGIN_ERROR"
 
-export const setUserData = (id, login, email) => ({
-  type: SET_USER_AUTH,
-  data: {
+export const setAuthUserData = (id, login, email, isAuth) => ({
+  type: SET_AUTH_USER_DATA,
+  payload: {
     id,
     login,
     email
-  }
+  },
+  isAuth
 })
 
-const authorize = () => ({
-  type: AUTHORIZE,
-  isAuth: true
-})
-
-const deleteAuthorization = () => ({
-  type: DELETE_AUTHORIZE,
-  isAuth: false
+const setLoginError = (loginError) => ({
+  type: SET_LOGIN_ERROR,
+  loginError: loginError
 })
 
 const initialState = {
   id: null,
   login: null,
   e_mail: null,
-  isAuth: false
+  isAuth: false,
+  loginError: null
 }
 
 export const setUser = () => {
@@ -36,7 +32,7 @@ export const setUser = () => {
     authAPI.setUserData().then(response => {
       if (response.resultCode === 0) {
           const { email, login, id } = response.data;
-          dispatch(setUserData(id, login, email));
+          dispatch(setAuthUserData(id, login, email, true));
         }
     })
   }
@@ -45,8 +41,10 @@ export const setUser = () => {
 export const authorization = (email, password, rememberMe) => {
   return (dispatch) => {
     authAPI.userAuthorization(email, password, rememberMe).then(response => {
-      if (response === 0) {
-        dispatch(authorize())
+      if (response.resultCode === 0) {
+        dispatch(setUser())
+      } else {
+        dispatch(setLoginError(response.messages[0]))
       }
     })
   }
@@ -56,7 +54,7 @@ export const deleteAuth = () => {
   return (dispatch) => {
     authAPI.deleteAuthorization().then(response => {
       if (response.resultCode === 0) {
-        dispatch(deleteAuthorization())
+        dispatch(setAuthUserData(null, null, null, false))
       }
     })
   }
@@ -64,23 +62,17 @@ export const deleteAuth = () => {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_USER_AUTH: {
+    case SET_AUTH_USER_DATA: {
       return {
         ...state,
-        ...action.data,
-        isAuth: true
+        ...action.payload,
+        isAuth: action.isAuth
       }
     }
-    case AUTHORIZE: {
+    case SET_LOGIN_ERROR: {
       return {
         ...state,
-        isAuth: true
-      }
-    }
-    case DELETE_AUTHORIZE: {
-      return {
-        ...state,
-        isAuth: false
+        loginError: action.loginError
       }
     }
     default:

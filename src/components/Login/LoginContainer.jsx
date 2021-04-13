@@ -5,11 +5,9 @@ import {authorization} from "../../store/auth-reducer";
 import {compose} from "redux";
 import withProfileRedirect from "../Hoc/withProfileRedirect";
 
-const mapStateToProps = (state) => {
-  return {
-    isAuth: state.auth.isAuth
-  }
-}
+const mapStateToProps = (state) => ({
+  loginError: state.auth.loginError
+})
 
 export default compose(
     connect(mapStateToProps, {authorization}),

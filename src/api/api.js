@@ -57,7 +57,7 @@ export const authAPI = {
       rememberMe: rememberMe,
       captcha: true
     }).then( response => {
-      return response.data.resultCode
+      return response.data
     })
   },
   deleteAuthorization() {

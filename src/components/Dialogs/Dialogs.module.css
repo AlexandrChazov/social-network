@@ -2,3 +2,15 @@
     color: white;
     display: flex;
 }
+
+.errorMessage {
+    color: red
+}
+
+.messages {
+    margin-bottom: 30px;
+}
+
+.redBorder {
+    border: 1px solid red;
+}

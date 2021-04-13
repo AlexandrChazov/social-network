@@ -3,6 +3,7 @@ import styles from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import { Form, Field } from 'react-final-form';
+import {validators} from "../Common/FormValidation/FormValidation";
 
 const DialogsMessage = (props) => {
   return (
@@ -13,7 +14,24 @@ const DialogsMessage = (props) => {
           }}
           render={({ handleSubmit, values }) => (
               <form onSubmit={handleSubmit}>
-                <Field name="myMessage" component="textarea" placeholder="Type your message" />
+                <Field name="myMessage" validate = {validators.maxLength(50)} >
+                  {({ input, meta }) => (
+                      <div>
+                        {meta.error
+                          ? <>
+                              <textarea {...input}
+                                        type = "text"
+                                        placeholder="Type your message"
+                                        rows = "5"
+                                        cols = "25"
+                                        className = {styles.redBorder} />
+                              <span className={styles.errorMessage}>{meta.error}</span>
+                            </>
+                          : <textarea {...input} type = "text" placeholder="Type your message" rows = "5" cols = "25" />
+                        }
+                      </div>
+                  )}
+                </Field>
                 <button type="submit" disabled={!values.myMessage} >Submit</button>
               </form>
           )}
@@ -36,9 +54,11 @@ const Dialogs = (props) => {
             { dialog }
           </div>
           <div>
-            { message }
+            <div className={styles.messages}>
+              { message }
+            </div>
+            <DialogsMessage onSendMessage = {onSendMessage} />
           </div>
-              <DialogsMessage onSendMessage = {onSendMessage} />
         </div>
     )
 }
