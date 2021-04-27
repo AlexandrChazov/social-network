@@ -11,6 +11,8 @@ const Users = (props) => {
       pages.push(i)
     }
 
+    // console.log("RENDER USERS")
+
     return <div>
       <div className = {styles.pagination} >
         {

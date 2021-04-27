@@ -5,6 +5,7 @@ import Users from "./Users";
 import Preloader from "../Common/Preloader/Preloader";
 import withAuthRedirect from "../Hoc/withAuthRedirect";
 import {compose} from "redux";
+import {setUsersSelector} from "../../store/users-selectors";
 
 class UsersContainer extends React.Component {
 
@@ -35,9 +36,10 @@ class UsersContainer extends React.Component {
   }
 }
 
-const mapStateToProps = ( state ) => {
+const mapStateToProps = (state) => {
+  // console.log("USERS MAPSTATE")
   return {
-    users: state.usersPage.users,
+    users: setUsersSelector(state),
     pageSize: state.usersPage.pageSize,
     totalUsersCount: state.usersPage.totalUsersCount,
     currentPage: state.usersPage.currentPage,
@@ -52,7 +54,6 @@ export default compose(
     follow,
     setCurrentPage,
     getUsers
-  }),
-  withAuthRedirect
+  })
 )
 (UsersContainer);

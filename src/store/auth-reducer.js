@@ -29,7 +29,7 @@ const initialState = {
 
 export const setUser = () => {
   return (dispatch) => {
-    authAPI.setUserData().then(response => {
+    return authAPI.setUserData().then(response => {
       if (response.resultCode === 0) {
           const { email, login, id } = response.data;
           dispatch(setAuthUserData(id, login, email, true));

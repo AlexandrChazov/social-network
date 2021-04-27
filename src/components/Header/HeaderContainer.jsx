@@ -5,9 +5,9 @@ import { setUser, deleteAuth } from "../../store/auth-reducer";
 
 class HeaderContainer extends React.Component {
 
-  componentDidMount() {
-    this.props.setUser()
-  }
+  // componentDidMount() {
+  //   this.props.setUser()
+  // }
 
   render () {
       return (
