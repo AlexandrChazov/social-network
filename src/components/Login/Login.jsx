@@ -2,64 +2,39 @@ import React from "react";
 import { Form, Field } from 'react-final-form';
 import * as styles from "./Login.module.css"
 import {composeValidators, validators} from "../Common/FormValidation/FormValidation";
+import {inputCreator} from "./inputCreator";
 
-const Login = (props) => {
+const Login = ({authorization, loginError}) => {
   return (
       <div>
         <h1>
           Login
         </h1>
-        <LoginForm authorization = {props.authorization} loginError = {props.loginError} />
+        <LoginForm authorization = {authorization} loginError = {loginError} />
       </div>
   )
 };
 
-const LoginForm = (props) => {
+const LoginForm = ({authorization, loginError}) => {
   return (
       <Form
           onSubmit = {(values) => {
-            props.authorization(values.login, values.password, values.rememberMe);
+            authorization(values.login, values.password, values.rememberMe);
           }}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
               <div>
                 <Field name="login" validate={composeValidators(validators.required, validators.emailValidation)}>
-                  {({input, meta}) => {
-                    return (
-                        <div>
-                          <label>Login</label>
-                          {meta.error && meta.touched
-                              ? <>
-                                <input {...input} type="text" placeholder="Login" className={styles.redBorder}/>
-                                <span className={styles.errorMessage}>{meta.error}</span>
-                              </>
-                              : <input {...input} type="text" placeholder="Login"/>}
-                        </div>
-                    )
-                  }}
+                  { inputCreator("text", "Login", styles.redBorder, styles.errorMessage) }
                 </Field>
               </div>
               <div>
                 <Field name="password" validate={composeValidators(validators.required, validators.minLength(6))}>
-                  {({input, meta}) => {
-                    return (
-                        <div>
-                          <label>Password</label>
-
-                          {meta.error && meta.touched
-                              ? <>
-                                <input {...input} type="password" placeholder="Password" className={styles.redBorder}/>
-                                <span className={styles.errorMessage}>{meta.error}</span>
-                              </>
-                              : <input {...input} type="password" placeholder="Password"/>
-                          }
-                        </div>
-                    )
-                  }}
+                  { inputCreator("password", "Password", styles.redBorder, styles.errorMessage) }
                 </Field>
               </div>
               <div>
-                <label>Remember</label>
+                <label>Remember me </label>
                 <Field name="rememberMe" component="input" type="checkbox"/>
               </div>
               <div>
@@ -75,9 +50,9 @@ const LoginForm = (props) => {
                 </button>
               </div>
               {
-                props.loginError &&
+                loginError &&
                 <div className={styles.loginError}>
-                  { props.loginError}
+                  { loginError}
                 </div>
               }
 

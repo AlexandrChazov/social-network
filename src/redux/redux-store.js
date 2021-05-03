@@ -20,6 +20,6 @@ let reducers = combineReducers({
 
 let store = createStore(reducers, applyMiddleware(thunk));
 
-window.store = store; // чтобы посмотреть store в консоли пишем store.getState()
+window.store = store; // чтобы посмотреть redux в консоли пишем redux.getState()
 
 export default store;

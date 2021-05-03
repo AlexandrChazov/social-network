@@ -40,9 +40,10 @@ const AddPostComponent = (props) => {
   )
 }
 
-const MyPosts = (props) => {
+const MyPosts = props => {
+  console.log("render MyPosts")
 
-  const chat = props.profilePage.chats.map( m => <Post message={m.mess} likesCount={m.likesCount} key = {m.id} />);
+  const chat = props.chats.map( m => <Post message={m.mess} likesCount={m.likesCount} key = {m.id} />);
 
   const onAddPost = (myMessage) => {
     props.addPost(myMessage);

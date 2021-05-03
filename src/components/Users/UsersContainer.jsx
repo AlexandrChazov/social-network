@@ -1,20 +1,22 @@
 import React from "react";
-import { unFollow, follow, setCurrentPage, getUsers } from "../../store/users-reducer";
+import { unFollow, follow, setCurrentPage, getUsers } from "../../redux/users-reducer";
 import { connect } from "react-redux";
 import Users from "./Users";
 import Preloader from "../Common/Preloader/Preloader";
-import withAuthRedirect from "../Hoc/withAuthRedirect";
+// import withAuthRedirect from "../Hoc/withAuthRedirect";
 import {compose} from "redux";
-import {setUsersSelector} from "../../store/users-selectors";
+import {setUsersSelector} from "../../redux/users-selectors";
 
 class UsersContainer extends React.Component {
 
   componentDidMount() {
-    this.props.getUsers(this.props.pageSize, this.props.currentPage)
+    const {pageSize, currentPage} = this.props;
+    this.props.getUsers(pageSize, currentPage)
   }
 
   onPageChanged = (pageNumber) => {
-    this.props.getUsers(this.props.pageSize, pageNumber)
+    const {pageSize} = this.props;
+    this.props.getUsers(pageSize, pageNumber)
   }
 
   render() {

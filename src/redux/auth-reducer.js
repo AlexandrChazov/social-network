@@ -1,8 +1,7 @@
-import React from "react";
 import {authAPI} from "../api/api";
 
-const SET_AUTH_USER_DATA = "SET_AUTH_USER_DATA";
-const SET_LOGIN_ERROR = "SET_LOGIN_ERROR"
+const SET_AUTH_USER_DATA = "social-network/auth/SET_AUTH_USER_DATA";
+const SET_LOGIN_ERROR = "social-network/auth/SET_LOGIN_ERROR"
 
 export const setAuthUserData = (id, login, email, isAuth) => ({
   type: SET_AUTH_USER_DATA,
@@ -28,35 +27,32 @@ const initialState = {
 }
 
 export const setUser = () => {
-  return (dispatch) => {
-    return authAPI.setUserData().then(response => {
-      if (response.resultCode === 0) {
-          const { email, login, id } = response.data;
-          dispatch(setAuthUserData(id, login, email, true));
-        }
-    })
+  return async (dispatch) => {
+    const response = await authAPI.setUserData();
+    if (response.resultCode === 0) {
+      const {email, login, id} = response.data;
+      dispatch(setAuthUserData(id, login, email, true));
+    }
   }
 }
 
 export const authorization = (email, password, rememberMe) => {
-  return (dispatch) => {
-    authAPI.userAuthorization(email, password, rememberMe).then(response => {
-      if (response.resultCode === 0) {
-        dispatch(setUser())
-      } else {
-        dispatch(setLoginError(response.messages[0]))
-      }
-    })
+  return async (dispatch) => {
+    const response = await authAPI.userAuthorization(email, password, rememberMe);
+    if (response.resultCode === 0) {
+      dispatch(setUser())
+    } else {
+      dispatch(setLoginError(response.messages[0]))
+    }
   }
 }
 
 export const deleteAuth = () => {
-  return (dispatch) => {
-    authAPI.deleteAuthorization().then(response => {
+  return async (dispatch) => {
+    const response = await authAPI.deleteAuthorization();
       if (response.resultCode === 0) {
         dispatch(setAuthUserData(null, null, null, false))
       }
-    })
   }
 }
 

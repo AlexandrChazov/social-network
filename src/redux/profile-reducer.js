@@ -1,13 +1,19 @@
 import {profileAPI} from "../api/api";
 
-const ADD_POST = "ADD-POST";
-const SET_USER_PROFILE = "SET_USER_PROFILE";
-const SET_USER_STATUS = "SET_USER_STATUS";
+const ADD_POST = "social-network/profile/ADD-POST";
+const SET_USER_PROFILE = "social-network/profile/SET_USER_PROFILE";
+const SET_USER_STATUS = "social-network/profile/SET_USER_STATUS";
+const DELETE_POST = "social-network/profile/DELETE_POST";
 
 export const addPostActionCreator = (myMessage) => ({
   type: ADD_POST,
   myMessage: myMessage
 });
+
+export const deletePost = (id) => ({
+  type: DELETE_POST,
+  id
+})
 
 export const setUserProfile = (profile) => ({
   type: SET_USER_PROFILE,
@@ -32,32 +38,29 @@ const initialState = {
 }
 
 export const getProfileInfo = (id) => {
-  return (dispatch) => {
-    profileAPI.getProfileInfo(id).then(response => {
-      dispatch(setUserProfile(response));
-    })
+  return async (dispatch) => {
+    const response = await profileAPI.getProfileInfo(id)
+    dispatch(setUserProfile(response));
   }
 }
 
 export const getUserStatus = (id) => {
-  return (dispatch) => {
-    profileAPI.getUserStatus(id).then(response => {
-      dispatch(setUserStatus(response))
-    })
+  return async (dispatch) => {
+    const response = await profileAPI.getUserStatus(id);
+    dispatch(setUserStatus(response))
   }
 }
 
 export const updateStatus = (status) => {
-  return (dispatch) => {
-    profileAPI.updateStatus(status).then(response => {
-      if (response === 0) {
+  return async (dispatch) => {
+    const response = await profileAPI.updateStatus(status)
+      if (response.resultCode === 0) {
         dispatch(setUserStatus(status))
       }
-    })
   }
 }
 
-const profileReducer = (state = initialState, action) => {
+export const profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST: {
       return {...state,
@@ -68,6 +71,11 @@ const profileReducer = (state = initialState, action) => {
             likesCount: 0
           }],
       };
+    }
+    case DELETE_POST: {
+      return {
+        ...state, chats: state.chats.filter(message => message.id !== action.id)
+      }
     }
     case SET_USER_PROFILE: {
       return {

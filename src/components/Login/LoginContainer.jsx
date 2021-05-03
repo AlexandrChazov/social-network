@@ -1,9 +1,9 @@
-import React from "react";
+// import React from "react";
 import Login from "./Login";
 import {connect} from "react-redux";
-import {authorization} from "../../store/auth-reducer";
+import {authorization} from "../../redux/auth-reducer";
 import {compose} from "redux";
-import withProfileRedirect from "../Hoc/withProfileRedirect";
+import withProfileRedirect from "../../Hoc/withProfileRedirect";
 
 const mapStateToProps = (state) => ({
   loginError: state.auth.loginError

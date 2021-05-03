@@ -3,7 +3,7 @@ import preloadeGif from "../../../assets/images/Spinner-1s-200px.svg";
 
 const Preloader = (props) => {
   return <div>
-    <img src = { preloadeGif }  />
+    <img src = { preloadeGif } alt = "preloader" />
   </div>
 }
 

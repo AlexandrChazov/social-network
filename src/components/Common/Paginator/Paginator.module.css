@@ -1,0 +1,15 @@
+.pagination {
+  display: flex;
+  color: antiquewhite;
+  overflow: auto;
+  width: 1000px;
+}
+
+.pagination div {
+  margin-right: 3px;
+  cursor: pointer;
+}
+
+.active {
+  color: coral;
+}

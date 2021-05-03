@@ -1,9 +1,9 @@
-import React from 'react';
+// import React from 'react';
 import Navbar from "./Navbar";
 import {connect} from "react-redux";
 
 // const NavbarContainer = (props) => {
-//   const friends = props.store.getState().sidebar
+//   const friends = props.redux.getState().sidebar
 //   return (
 //     <Navbar friends = { friends } />
 //   )

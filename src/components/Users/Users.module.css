@@ -3,19 +3,3 @@
   height: 70px;
   border-radius: 20%;
 }
-
-.pagination {
-  display: flex;
-  color: antiquewhite;
-  overflow: auto;
-  width: 1000px;
-}
-
-.active {
-  color: coral;
-}
-
-.pagination div {
-  margin-right: 3px;
-  cursor: pointer;
-}
