@@ -8,9 +8,10 @@ import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginContainer from "./components/Login/LoginContainer";
-import {connect} from "react-redux";
+import {connect, Provider} from "react-redux";
 import {initializeApp} from "./redux/app-reducer";
 import Preloader from "./components/Common/Preloader/Preloader";
+import store from "./redux/redux-store";
 
 class App extends React.Component {
 
@@ -44,4 +45,18 @@ const mapStateToProps = (state) => ({
   isInitialized: state.app.isInitialized
 })
 
-export default connect(mapStateToProps, {initializeApp})(App);
+// export default connect(mapStateToProps, {initializeApp})(App);
+
+const AppContainer = connect(mapStateToProps, {initializeApp})(App);
+
+const MainApp = (props) => {
+  return (
+      <React.StrictMode>
+        <Provider store = { store } >
+          <AppContainer />
+        </Provider>
+      </React.StrictMode>
+  )
+}
+
+export default MainApp;

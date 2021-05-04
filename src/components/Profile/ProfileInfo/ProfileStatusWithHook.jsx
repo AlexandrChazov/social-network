@@ -10,14 +10,6 @@ const ProfileStatus = React.memo(props => {
     setStatus(props.status)
   }, [props.status])
 
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   if (prevProps.status !== this.props.status) {
-  //     this.setState({
-  //       status: this.props.status
-  //     })
-  //   }
-  // }
-  //
   const onStatusChange = (e) => {
     setStatus(e.currentTarget.value)
   }

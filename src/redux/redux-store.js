@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore, compose} from "redux";
 import thunk from "redux-thunk";
 import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
@@ -18,7 +18,12 @@ let reducers = combineReducers({
   fake: fakeReducer
 });
 
-let store = createStore(reducers, applyMiddleware(thunk));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(
+    applyMiddleware(thunk)
+));
+
+// const store = createStore(reducers, applyMiddleware(thunk));
 
 window.store = store; // чтобы посмотреть redux в консоли пишем redux.getState()
 
