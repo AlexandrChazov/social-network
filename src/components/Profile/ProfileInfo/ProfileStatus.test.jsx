@@ -20,7 +20,7 @@ describe("ProfileStatus Component", () => {  // объединяет тесты 
     const component = create(<ProfileStatus status="Some text" />);
     const root = component.root;
     const span = root.findByType("span");
-    expect(span.children[1]).toBe("Some text")
+    expect(span.children[1]).toBe("Some text") //ставим точку останова, дебажим и смотрим какие свойства есть у спана - видим свойство children
   })
 
   test("after creation input shouldn't displayed", () => {
