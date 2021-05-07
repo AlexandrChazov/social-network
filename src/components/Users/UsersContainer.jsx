@@ -22,19 +22,20 @@ class UsersContainer extends React.Component {
   render() {
     return (
         <>
-          { this.props.isFetching ? <Preloader /> : null }
           <Users
-                totalUsersCount = {this.props.totalUsersCount}
-                pageSize = {this.props.pageSize}
-                currentPage = {this.props.currentPage}
-                users = {this.props.users}
-                unFollow = {this.props.unFollow}
-                follow = {this.props.follow}
-                usersWithToggleFollowing = {this.props.usersWithToggleFollowing}
-                toggleFollowing = {this.props.toggleFollowing}
-                onPageChanged = {this.onPageChanged} />
+              totalUsersCount = {this.props.totalUsersCount}
+              pageSize = {this.props.pageSize}
+              currentPage = {this.props.currentPage}
+              users = {this.props.users}
+              unFollow = {this.props.unFollow}
+              follow = {this.props.follow}
+              usersWithToggleFollowing = {this.props.usersWithToggleFollowing}
+              toggleFollowing = {this.props.toggleFollowing}
+              countOfDisplayingPages = {this.props.countOfDisplayingPages}
+              onPageChanged = {this.onPageChanged} />
+          { this.props.isFetching ? <Preloader /> : null }
         </>
-        )
+    )
   }
 }
 
@@ -46,7 +47,9 @@ const mapStateToProps = (state) => {
     totalUsersCount: state.usersPage.totalUsersCount,
     currentPage: state.usersPage.currentPage,
     isFetching: state.usersPage.isFetching,
-    usersWithToggleFollowing: state.usersPage.usersWithToggleFollowing
+    usersWithToggleFollowing: state.usersPage.usersWithToggleFollowing,
+    countOfDisplayingPages: state.usersPage.countOfDisplayingPages,
+    paginatorPagesBlockNumber: state.usersPage.paginatorPagesBlockNumber
   }
 }
 

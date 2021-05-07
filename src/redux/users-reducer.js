@@ -51,7 +51,8 @@ const initialState = {
   currentPage: 1,
   totalUsersCount: 0,
   isFetching: true,
-  usersWithToggleFollowing: []
+  usersWithToggleFollowing: [],
+  countOfDisplayingPages: 10
 }
 
 export const getUsers = (pageSize, currentPage) => {

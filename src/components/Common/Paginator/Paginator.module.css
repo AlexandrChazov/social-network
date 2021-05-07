@@ -1,15 +1,31 @@
 .pagination {
   display: flex;
+  align-items: center;
   color: antiquewhite;
   overflow: auto;
-  width: 1000px;
+  margin-bottom: 20px;
 }
 
-.pagination div {
+.numbersWrapper {
+  width: 500px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.numbers {
   margin-right: 3px;
   cursor: pointer;
 }
 
 .active {
   color: coral;
+}
+
+.buttonWithArrow {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  margin: 0px 5px;
+  border: none;
+  border-radius: 100%;
 }

@@ -9,13 +9,14 @@ const Users = (props) => {
                    pageSize={props.pageSize}
                    currentPage={props.currentPage}
                    onPageChanged={props.onPageChanged}
+                   countOfDisplayingPages = {props.countOfDisplayingPages}
         />
         <div>
           {props.users.map((user) => <User key={user.id}
-                                            user={user}
-                                            follow={props.follow}
-                                            unFollow={props.unFollow}
-                                            usersWithToggleFollowing={props.usersWithToggleFollowing} />)}
+                                           user={user}
+                                           follow={props.follow}
+                                           unFollow={props.unFollow}
+                                           usersWithToggleFollowing={props.usersWithToggleFollowing} />)}
         </div>
       </div>
   )
