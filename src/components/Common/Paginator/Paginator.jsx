@@ -1,10 +1,10 @@
 import styles from "./Paginator.module.css";
 import React, {useState} from "react";
 
-export const Paginator = ({totalUsersCount, pageSize, currentPage, onPageChanged, countOfDisplayingPages}) => {
+export const Paginator = ({totalUsersCount, usersPerPage, currentPage, onPageChanged, countOfDisplayingPages}) => {
 
   const pages = [];
-  const totalPagesCount = Math.ceil(totalUsersCount / pageSize);
+  const totalPagesCount = Math.ceil(totalUsersCount / usersPerPage);
   const countOfBlocks = Math.ceil(totalPagesCount / countOfDisplayingPages);
   const [blockNumber, setBlockNumber] = useState(1);
   const firstPageNumber = (blockNumber - 1) * countOfDisplayingPages + 1;

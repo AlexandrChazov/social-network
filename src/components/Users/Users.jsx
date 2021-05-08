@@ -6,7 +6,7 @@ const Users = (props) => {
   return (
       <div>
         <Paginator totalUsersCount={props.totalUsersCount}
-                   pageSize={props.pageSize}
+                   usersPerPage={props.usersPerPage}
                    currentPage={props.currentPage}
                    onPageChanged={props.onPageChanged}
                    countOfDisplayingPages = {props.countOfDisplayingPages}

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import News from "./components/News/News";
-import {BrowserRouter, HashRouter, Route} from "react-router-dom";
+import {HashRouter, Route} from "react-router-dom";
 import NavbarContainer from "./components/Navbar/NavbarContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";

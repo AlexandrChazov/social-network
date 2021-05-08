@@ -10,13 +10,13 @@ import {setUsersSelector} from "../../redux/users-selectors";
 class UsersContainer extends React.Component {
 
   componentDidMount() {
-    const {pageSize, currentPage} = this.props;
-    this.props.getUsers(pageSize, currentPage)
+    const {usersPerPage, currentPage} = this.props;
+    this.props.getUsers(usersPerPage, currentPage)
   }
 
   onPageChanged = (pageNumber) => {
-    const {pageSize} = this.props;
-    this.props.getUsers(pageSize, pageNumber)
+    const {usersPerPage} = this.props;
+    this.props.getUsers(usersPerPage, pageNumber)
   }
 
   render() {
@@ -24,7 +24,7 @@ class UsersContainer extends React.Component {
         <>
           <Users
               totalUsersCount = {this.props.totalUsersCount}
-              pageSize = {this.props.pageSize}
+              usersPerPage = {this.props.usersPerPage}
               currentPage = {this.props.currentPage}
               users = {this.props.users}
               unFollow = {this.props.unFollow}
@@ -43,7 +43,7 @@ const mapStateToProps = (state) => {
   // console.log("USERS MAPSTATE")
   return {
     users: setUsersSelector(state),
-    pageSize: state.usersPage.pageSize,
+    usersPerPage: state.usersPage.usersPerPage,
     totalUsersCount: state.usersPage.totalUsersCount,
     currentPage: state.usersPage.currentPage,
     isFetching: state.usersPage.isFetching,

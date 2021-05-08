@@ -47,7 +47,7 @@ export const toggleFollowing = (isFetching, id) => ({
 
 const initialState = {
   users: [],
-  pageSize: 5,
+  usersPerPage: 5,
   currentPage: 1,
   totalUsersCount: 0,
   isFetching: true,
