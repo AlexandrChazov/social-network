@@ -4,6 +4,7 @@ const ADD_POST = "social-network/profile/ADD-POST";
 const SET_USER_PROFILE = "social-network/profile/SET_USER_PROFILE";
 const SET_USER_STATUS = "social-network/profile/SET_USER_STATUS";
 const DELETE_POST = "social-network/profile/DELETE_POST";
+const SET_PHOTO_SUCCESS = "social-network/profile/SET_PHOTO_SUCCESS"
 
 export const addPostActionCreator = (myMessage) => ({
   type: ADD_POST,
@@ -23,6 +24,11 @@ export const setUserProfile = (profile) => ({
 export const setUserStatus = (status) => ({
   type: SET_USER_STATUS,
   status: status
+})
+
+const setPhotoSuccess = (photo) => ({
+  type: SET_PHOTO_SUCCESS,
+  photo
 })
 
 const initialState = {
@@ -60,6 +66,15 @@ export const updateStatus = (status) => {
   }
 }
 
+export const setPhoto = (event) => {
+  return async (dispatch) => {
+    const response = await profileAPI.sendPhoto(event.target.files[0])
+      if (response.data.resultCode === 0) {
+        dispatch(setPhotoSuccess(response.data.data.photos.large))
+      }
+  }
+}
+
 export const profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST: {
@@ -87,6 +102,11 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         status: action.status
+      }
+    }
+    case SET_PHOTO_SUCCESS: {
+      return {
+        ...state, profile: {...state.profile, photos: {...state.profile.photos, large: action.photo}}
       }
     }
     default:

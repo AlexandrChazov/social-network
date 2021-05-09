@@ -47,7 +47,7 @@ export const toggleFollowing = (isFetching, id) => ({
 
 const initialState = {
   users: [],
-  usersPerPage: 5,
+  usersPerPage: 100,
   currentPage: 1,
   totalUsersCount: 0,
   isFetching: true,
@@ -55,10 +55,10 @@ const initialState = {
   countOfDisplayingPages: 10
 }
 
-export const getUsers = (pageSize, currentPage) => {
+export const getUsers = (usersPerPage, currentPage) => {
   return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    const data = await usersAPI.getUsers(pageSize, currentPage);
+    const data = await usersAPI.getUsers(usersPerPage, currentPage);
     dispatch(toggleIsFetching(false));
     dispatch(setUsers(data.items));
     dispatch(setCurrentPage(currentPage))
