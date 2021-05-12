@@ -4,14 +4,15 @@ const SET_AUTH_USER_DATA = "social-network/auth/SET_AUTH_USER_DATA";
 const SET_LOGIN_ERROR = "social-network/auth/SET_LOGIN_ERROR";
 const GET_CAPTCHA_SUCCESS = "social-network/profile/GET_CAPTCHA_SUCCESS";
 
-export const setAuthUserData = (id, login, email, isAuth) => ({
+export const setAuthUserData = (id, login, email, isAuth, captcha = null) => ({
   type: SET_AUTH_USER_DATA,
   payload: {
     id,
     login,
     email
   },
-  isAuth
+  isAuth,
+  captcha
 })
 
 const setLoginError = (loginError) => ({
@@ -48,6 +49,7 @@ export const authorization = (email, password, rememberMe, captcha) => {
     const response = await authAPI.userAuthorization(email, password, rememberMe, captcha);
     if (response.resultCode === 0) {
       dispatch(setUser())
+      dispatch(setLoginError(null))
     } else {
       if (response.resultCode === 10) {
         dispatch(getCaptcha())
@@ -79,7 +81,8 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.payload,
-        isAuth: action.isAuth
+        isAuth: action.isAuth,
+        captcha: action.captcha
       }
     }
     case SET_LOGIN_ERROR: {
