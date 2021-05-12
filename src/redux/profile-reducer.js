@@ -81,7 +81,7 @@ export const setProfile = (profile, userID) => {
     if (response.resultCode === 0) {
       dispatch(getProfileInfo(userID))
     }
-    return response
+    return response;
   }
 }
 
