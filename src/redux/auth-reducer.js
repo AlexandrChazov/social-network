@@ -1,7 +1,8 @@
-import {authAPI} from "../api/api";
+import {authAPI, securityAPI} from "../api/api";
 
 const SET_AUTH_USER_DATA = "social-network/auth/SET_AUTH_USER_DATA";
-const SET_LOGIN_ERROR = "social-network/auth/SET_LOGIN_ERROR"
+const SET_LOGIN_ERROR = "social-network/auth/SET_LOGIN_ERROR";
+const GET_CAPTCHA_SUCCESS = "social-network/profile/GET_CAPTCHA_SUCCESS";
 
 export const setAuthUserData = (id, login, email, isAuth) => ({
   type: SET_AUTH_USER_DATA,
@@ -18,12 +19,18 @@ const setLoginError = (loginError) => ({
   loginError: loginError
 })
 
+const getCaptchaSuccess = (captcha) => ({
+  type: GET_CAPTCHA_SUCCESS,
+  captcha
+})
+
 const initialState = {
   id: null,
   login: null,
   e_mail: null,
   isAuth: false,
-  loginError: null
+  loginError: null,
+  captcha: null
 }
 
 export const setUser = () => {
@@ -36,12 +43,15 @@ export const setUser = () => {
   }
 }
 
-export const authorization = (email, password, rememberMe) => {
+export const authorization = (email, password, rememberMe, captcha) => {
   return async (dispatch) => {
-    const response = await authAPI.userAuthorization(email, password, rememberMe);
+    const response = await authAPI.userAuthorization(email, password, rememberMe, captcha);
     if (response.resultCode === 0) {
       dispatch(setUser())
     } else {
+      if (response.resultCode === 10) {
+        dispatch(getCaptcha())
+      }
       dispatch(setLoginError(response.messages[0]))
     }
   }
@@ -53,6 +63,13 @@ export const deleteAuth = () => {
       if (response.resultCode === 0) {
         dispatch(setAuthUserData(null, null, null, false))
       }
+  }
+}
+
+export const getCaptcha = () => {
+  return async (dispatch) => {
+    const response = await securityAPI.receiveCaptcha();
+    dispatch(getCaptchaSuccess(response))
   }
 }
 
@@ -69,6 +86,12 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         loginError: action.loginError
+      }
+    }
+    case GET_CAPTCHA_SUCCESS: {
+      return {
+        ...state,
+        captcha: action.captcha
       }
     }
     default:

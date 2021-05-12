@@ -1,8 +1,8 @@
-export const inputCreator = (type, placeholder, inputClassName, spanClassName) =>
+export const inputCreator = (type, placeholder, inputClassName, spanClassName, label) =>
   ({input, meta}) => {
     return (
       <div>
-        <label>Login</label>
+        <label>{label}</label>
         {meta.error && meta.touched
           ? <>
             <input {...input} type={type} placeholder={placeholder} className={inputClassName}/>

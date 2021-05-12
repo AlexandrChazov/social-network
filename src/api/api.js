@@ -64,12 +64,12 @@ export const authAPI = {
       return response.data
     })
   },
-  userAuthorization(email, password, rememberMe) {
+  userAuthorization(email, password, rememberMe, captcha) {
     return instance.post(`auth/login`, {
       email: email,
       password: password,
       rememberMe: rememberMe,
-      captcha: true
+      captcha: captcha
     }).then( response => {
       return response.data
     })
@@ -78,5 +78,12 @@ export const authAPI = {
     return instance.delete(`auth/login`).then(response => {
       return response.data
     })
+  }
+}
+
+export const securityAPI = {
+  receiveCaptcha: async () => {
+    const response = await instance.get("security/get-captcha-url");
+    return response.data.url
   }
 }
