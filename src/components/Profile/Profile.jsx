@@ -1,7 +1,6 @@
 import React from 'react';
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
-import {setPhoto} from "../../redux/profile-reducer";
 
 const Profile = (props) => {
   return (
@@ -10,7 +9,8 @@ const Profile = (props) => {
                      status = {props.status}
                      updateStatus = {props.updateStatus}
                      setPhoto = {props.setPhoto}
-                     isMyProfilePage = {props.isMyProfilePage}/>
+                     isMyProfilePage = {props.isMyProfilePage}
+                     setProfile = {props.setProfile}/>
         <MyPostsContainer />
     </div>
   )

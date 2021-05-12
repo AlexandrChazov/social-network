@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './ProfileInfo.module.css';
 import Preloader from "../../Common/Preloader/Preloader";
 import ProfileStatus from "./ProfileStatusWithHook";
-import {setPhoto} from "../../../redux/profile-reducer";
+import AboutMe from "./AboutMe";
 
-const ProfileInfo = ({profile, status, updateStatus, setPhoto, isMyProfilePage}) => {
+const ProfileInfo = ({profile, status, updateStatus, setPhoto, isMyProfilePage, setProfile}) => {
 
   if (!profile) {
     return <Preloader />
@@ -16,7 +16,13 @@ const ProfileInfo = ({profile, status, updateStatus, setPhoto, isMyProfilePage})
               <div>{profile.fullName}</div>
               <img alt = "profile" src = {profile.photos.large} />
               {isMyProfilePage && <input type="file" onChange={setPhoto}/>}
-              <div>{profile.aboutMe}</div>
+
+
+              <AboutMe profile = {profile}
+                       setProfile = {setProfile}
+                       isMyProfilePage = {isMyProfilePage}/>
+
+
             </div>
             <ProfileStatus status = {status}
                            updateStatus={updateStatus}/>

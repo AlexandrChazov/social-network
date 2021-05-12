@@ -41,7 +41,6 @@ const AddPostComponent = (props) => {
 }
 
 const MyPosts = props => {
-  console.log("render MyPosts")
 
   const chat = props.chats.map( m => <Post message={m.mess} likesCount={m.likesCount} key = {m.id} />);
 

@@ -50,6 +50,11 @@ export const profileAPI = {
         "Content-Type": "multipart/form-data"
       }
     })
+  },
+  sentProfileInfo(profile) {
+    return instance.put("profile", profile).then(response => {
+      return response.data;
+    })
   }
 }
 

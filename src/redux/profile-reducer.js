@@ -75,6 +75,16 @@ export const setPhoto = (event) => {
   }
 }
 
+export const setProfile = (profile, userID) => {
+  return async (dispatch) => {
+    const response = await profileAPI.sentProfileInfo(profile)
+    if (response.resultCode === 0) {
+      dispatch(getProfileInfo(userID))
+    }
+    return response
+  }
+}
+
 export const profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST: {
