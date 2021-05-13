@@ -24,8 +24,8 @@ const LoginForm = ({authorization, loginError, captcha}) => {
           }}
           render={({handleSubmit, form, submitting, pristine, values}) => (
               <form onSubmit={handleSubmit}>
-                {fieldCreator("email", [validators.required, validators.emailValidation], "text", "email", styles.redBorder, styles.errorMessage, "Login")}
-                {fieldCreator("password", [validators.required, validators.minLength(6)], "password", "Password", styles.redBorder, styles.errorMessage, "Password")}
+                {fieldCreator("email", [validators.required, validators.emailValidation], "text", "email", "Login")}
+                {fieldCreator("password", [validators.required, validators.minLength(6)], "password", "Password", "Password")}
                 <div>
                   <label>Remember me </label>
                   <Field name="rememberMe" component="input" type="checkbox"/>

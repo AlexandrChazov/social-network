@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import News from "./components/News/News";
-import {HashRouter, Route} from "react-router-dom";
+import {HashRouter, Redirect, Route, Switch} from "react-router-dom";
 import NavbarContainer from "./components/Navbar/NavbarContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
@@ -17,8 +17,17 @@ const LoginContainer = React.lazy(() => import("./components/Login/LoginContaine
 
 class App extends React.Component {
 
+  catchAllUnhandledErrors = () => {
+    alert("Some error occurred")
+  }
+
   componentDidMount() {
     this.props.initializeApp()
+    window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors)
   }
 
   render() {
@@ -31,11 +40,15 @@ class App extends React.Component {
             <HeaderContainer/>
             <NavbarContainer/>
             <div className="app-wrapper-content">
-              <Route path="/Profile/:userID?" render={() => <ProfileContainer/>}/>
-              <Route path="/Dialogs" render={withSuspense(DialogsContainer)}/>
-              <Route path="/News" render={() => <News/>}/>
-              <Route path="/Users" render={() => <UsersContainer/>}/>
-              <Route path="/Login" render={withSuspense(LoginContainer)}/>
+              <Switch>
+                <Redirect exact from="/" to="/profile" />
+                <Route path="/Profile/:userID?" render={() => <ProfileContainer/>}/>
+                <Route path="/Dialogs" render={withSuspense(DialogsContainer)}/>
+                <Route path="/News" render={() => <News/>}/>
+                <Route path="/Users" render={() => <UsersContainer/>}/>
+                <Route path="/Login" render={withSuspense(LoginContainer)}/>
+                <Route path="*" render={() => <div>404 NOT FOUND</div>}/>
+              </Switch>
             </div>
           </div>
         </HashRouter>

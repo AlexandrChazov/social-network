@@ -39,7 +39,7 @@ export const Paginator = ({totalUsersCount, usersPerPage, currentPage, onPageCha
             pages.map((pageNumber) => {
               return (
                   <div key={pageNumber}
-                       className={`${styles.numbers} ${pageNumber === currentPage ? styles.active : undefined}`}
+                       className={`${styles.pageNumbers} ${pageNumber === currentPage ? styles.active : undefined}`}
                        onClick={() => {
                          onPageChanged(pageNumber)
                        }}>
