@@ -2,11 +2,11 @@ import {setUser} from "./auth-reducer";
 
 const SET_AUTHORIZATION = "social-network/app/SET_AUTHORIZATION";
 
-type SETAUTORIZATIONTYPE = () => ({
+type SetAutorizationActionType = {
   type: typeof SET_AUTHORIZATION
-})
+}
 
-const setAuthorization: SETAUTORIZATIONTYPE = () => ({
+const setAuthorization = (): SetAutorizationActionType => ({
   type: SET_AUTHORIZATION
 });
 
@@ -19,11 +19,11 @@ export const initializeApp = () => async (dispatch: Function) => {
   await dispatch(setAuthorization())
 }
 
-type ACTIONTYPE = {
+type ActionType = {
   type: string
 }
 
-export const appReducer = (state = initialState, action: ACTIONTYPE) => {
+export const appReducer = (state = initialState, action: ActionType): typeof initialState => {
   switch (action.type) {
     case SET_AUTHORIZATION: {
       return {

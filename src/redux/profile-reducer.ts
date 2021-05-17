@@ -6,59 +6,114 @@ const SET_USER_STATUS = "social-network/profile/SET_USER_STATUS";
 const DELETE_POST = "social-network/profile/DELETE_POST";
 const SET_PHOTO_SUCCESS = "social-network/profile/SET_PHOTO_SUCCESS"
 
-export const addPostActionCreator = (myMessage) => ({
+type AddPostActionType = {
+  type: typeof ADD_POST
+  myMessage: string
+}
+
+export const addPostActionCreator = (myMessage: string): AddPostActionType => ({
   type: ADD_POST,
   myMessage: myMessage
 });
 
-export const deletePost = (id) => ({
+type DeletePostActionType = {
+  type: typeof DELETE_POST
+  id: number
+}
+
+export const deletePost = (id: number): DeletePostActionType => ({
   type: DELETE_POST,
   id
 })
 
-export const setUserProfile = (profile) => ({
+type SetUserProfileActionType = {
+  type: typeof SET_USER_PROFILE
+  profile: ProfileType
+}
+
+export const setUserProfile = (profile: ProfileType): SetUserProfileActionType => ({
   type: SET_USER_PROFILE,
   profile: profile
 });
 
-export const setUserStatus = (status) => ({
+type SetUserStatusActionType = {
+  type: typeof SET_USER_STATUS
+  status: string
+}
+
+export const setUserStatus = (status: string): SetUserStatusActionType => ({
   type: SET_USER_STATUS,
   status: status
 })
 
-const setPhotoSuccess = (photo) => ({
+type SetPhotoSuccessActionType = {
+  type: typeof SET_PHOTO_SUCCESS
+  photo: string
+}
+
+const setPhotoSuccess = (photo: string): SetPhotoSuccessActionType => ({
   type: SET_PHOTO_SUCCESS,
   photo
 })
 
+type ChatsArrayType = {
+  id: number
+  mess: string
+  likesCount: number
+}
+type ContactsType = {
+  github: string
+  vk: string
+  facebook: string
+  instagram: string
+  twitter: string
+  website: string
+  youtube: string
+  mainLink: string
+}
+type PhotosType = {
+  small: string | null
+  large: string | null
+}
+type ProfileType = {
+  userId: number
+  lookingForAJob: boolean
+  lookingForAJobDescription: string
+  fullName: string
+  contacts: ContactsType
+  photos: PhotosType
+}
+
 const initialState = {
-  textareaValue: 'IT-kamasutra.com',
+  textareaValue: 'IT-kamasutra.com' as string,
   chats : [
     {id: 1, mess: "Hello, how are you?", likesCount: 10},
     {id: 2, mess: "What are you wont?", likesCount: 10},
     {id: 3, mess: "What are hell are you doing?", likesCount: 20},
     {id: 4, mess: "dada", likesCount: 15}
-  ],
-  profile: null,
+  ] as Array<ChatsArrayType>,
+  profile: null as ProfileType | null,
   status: ""
 }
 
-export const getProfileInfo = (id) => {
-  return async (dispatch) => {
+type InitialStateType = typeof initialState;
+
+export const getProfileInfo = (id: number) => {
+  return async (dispatch: any) => {
     const response = await profileAPI.getProfileInfo(id)
     dispatch(setUserProfile(response));
   }
 }
 
-export const getUserStatus = (id) => {
-  return async (dispatch) => {
+export const getUserStatus = (id: number) => {
+  return async (dispatch: any) => {
     const response = await profileAPI.getUserStatus(id);
     dispatch(setUserStatus(response))
   }
 }
 
-export const updateStatus = (status) => {
-  return async (dispatch) => {
+export const updateStatus = (status: string) => {
+  return async (dispatch: any) => {
     const response = await profileAPI.updateStatus(status)
       if (response.resultCode === 0) {
         dispatch(setUserStatus(status))
@@ -66,8 +121,8 @@ export const updateStatus = (status) => {
   }
 }
 
-export const setPhoto = (event) => {
-  return async (dispatch) => {
+export const setPhoto = (event: any) => {
+  return async (dispatch: any) => {
     const response = await profileAPI.sendPhoto(event.target.files[0])
       if (response.data.resultCode === 0) {
         dispatch(setPhotoSuccess(response.data.data.photos.large))
@@ -75,8 +130,8 @@ export const setPhoto = (event) => {
   }
 }
 
-export const setProfile = (profile, userID) => {
-  return async (dispatch) => {
+export const setProfile = (profile: ProfileType, userID: number) => {
+  return async (dispatch: any) => {
     const response = await profileAPI.sentProfileInfo(profile)
     if (response.resultCode === 0) {
       dispatch(getProfileInfo(userID))
@@ -85,7 +140,7 @@ export const setProfile = (profile, userID) => {
   }
 }
 
-export const profileReducer = (state = initialState, action) => {
+export const profileReducer = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {
     case ADD_POST: {
       return {...state,
@@ -116,7 +171,7 @@ export const profileReducer = (state = initialState, action) => {
     }
     case SET_PHOTO_SUCCESS: {
       return {
-        ...state, profile: {...state.profile, photos: {...state.profile.photos, large: action.photo}}
+        ...state, profile: {...state.profile, photos: {...state.profile!.photos, large: action.photo}} as ProfileType
       }
     }
     default:
