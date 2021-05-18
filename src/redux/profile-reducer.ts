@@ -1,4 +1,5 @@
 import {profileAPI} from "../api/api";
+import {ChatsArrayType, ProfileType} from "../Types/types";
 
 const ADD_POST = "social-network/profile/ADD-POST";
 const SET_USER_PROFILE = "social-network/profile/SET_USER_PROFILE";
@@ -55,34 +56,6 @@ const setPhotoSuccess = (photo: string): SetPhotoSuccessActionType => ({
   type: SET_PHOTO_SUCCESS,
   photo
 })
-
-type ChatsArrayType = {
-  id: number
-  mess: string
-  likesCount: number
-}
-type ContactsType = {
-  github: string
-  vk: string
-  facebook: string
-  instagram: string
-  twitter: string
-  website: string
-  youtube: string
-  mainLink: string
-}
-type PhotosType = {
-  small: string | null
-  large: string | null
-}
-type ProfileType = {
-  userId: number
-  lookingForAJob: boolean
-  lookingForAJobDescription: string
-  fullName: string
-  contacts: ContactsType
-  photos: PhotosType
-}
 
 const initialState = {
   textareaValue: 'IT-kamasutra.com' as string,
