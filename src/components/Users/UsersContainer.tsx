@@ -6,15 +6,33 @@ import Preloader from "../Common/Preloader/Preloader";
 // import withAuthRedirect from "../Hoc/withAuthRedirect";
 import {compose} from "redux";
 import {setUsersSelector} from "../../redux/users-selectors";
+import {UserType} from "../../Types/types";
+import {AppStateType} from "../../redux/redux-store";
 
-class UsersContainer extends React.Component {
+type PropsType = {
+    totalUsersCount: number
+    usersPerPage: number
+    currentPage: number
+    users: Array<UserType>
+    usersWithToggleFollowing: Array<number>
+    // toggleFollowing
+    countOfDisplayingPages: number
+    isFetching: boolean
+
+    // onPageChanged:
+    unFollow: () => void
+    follow: () => void
+    getUsers: (usersPerPage: number, currentPage: number) => void
+}
+
+class UsersContainer extends React.Component<PropsType> {
 
   componentDidMount() {
     const {usersPerPage, currentPage} = this.props;
     this.props.getUsers(usersPerPage, currentPage)
   }
 
-  onPageChanged = (pageNumber) => {
+  onPageChanged = (pageNumber: number) => {
     const {usersPerPage} = this.props;
     this.props.getUsers(usersPerPage, pageNumber)
   }
@@ -30,7 +48,7 @@ class UsersContainer extends React.Component {
               unFollow = {this.props.unFollow}
               follow = {this.props.follow}
               usersWithToggleFollowing = {this.props.usersWithToggleFollowing}
-              toggleFollowing = {this.props.toggleFollowing}
+              // toggleFollowing = {this.props.toggleFollowing}
               countOfDisplayingPages = {this.props.countOfDisplayingPages}
               onPageChanged = {this.onPageChanged} />
           { this.props.isFetching ? <Preloader /> : null }
@@ -39,7 +57,7 @@ class UsersContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType) => {
   // console.log("USERS MAPSTATE")
   return {
     users: setUsersSelector(state),
@@ -49,7 +67,7 @@ const mapStateToProps = (state) => {
     isFetching: state.usersPage.isFetching,
     usersWithToggleFollowing: state.usersPage.usersWithToggleFollowing,
     countOfDisplayingPages: state.usersPage.countOfDisplayingPages,
-    paginatorPagesBlockNumber: state.usersPage.paginatorPagesBlockNumber
+    // paginatorPagesBlockNumber: state.usersPage.paginatorPagesBlockNumber
   }
 }
 
