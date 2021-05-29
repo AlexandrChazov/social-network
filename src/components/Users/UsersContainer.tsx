@@ -70,7 +70,6 @@ const mapStateToProps = (state: AppStateType) => {
     // paginatorPagesBlockNumber: state.usersPage.paginatorPagesBlockNumber
   }
 }
-
 export default compose(
   connect(mapStateToProps, {
     unFollow,
@@ -79,4 +78,5 @@ export default compose(
     getUsers
   })
 )
+//@ts-ignore
 (UsersContainer);

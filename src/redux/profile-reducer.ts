@@ -1,11 +1,13 @@
 import {profileAPI} from "../api/api";
 import {ChatsArrayType, ProfileType} from "../Types/types";
+import {takeEvery, put, call} from "redux-saga/effects";
 
 const ADD_POST = "social-network/profile/ADD-POST";
 const SET_USER_PROFILE = "social-network/profile/SET_USER_PROFILE";
 const SET_USER_STATUS = "social-network/profile/SET_USER_STATUS";
 const DELETE_POST = "social-network/profile/DELETE_POST";
-const SET_PHOTO_SUCCESS = "social-network/profile/SET_PHOTO_SUCCESS"
+const SET_PHOTO_SUCCESS = "social-network/profile/SET_PHOTO_SUCCESS";
+const REQUEST_STATUS = "social-network/profile/REQUEST_STATUS";
 
 type AddPostActionType = {
   type: typeof ADD_POST
@@ -57,6 +59,11 @@ const setPhotoSuccess = (photo: string): SetPhotoSuccessActionType => ({
   photo
 })
 
+export const requestStatus = (id: number) => ({
+  type: REQUEST_STATUS,
+  id
+})
+
 const initialState = {
   textareaValue: 'IT-kamasutra.com' as string,
   chats : [
@@ -78,12 +85,12 @@ export const getProfileInfo = (id: number) => {
   }
 }
 
-export const getUserStatus = (id: number) => {
-  return async (dispatch: any) => {
-    const response = await profileAPI.getUserStatus(id);
-    dispatch(setUserStatus(response))
-  }
-}
+// export const getUserStatus = (id: number) => {
+//   return async (dispatch: any) => {
+//     const response = await profileAPI.getUserStatus(id);
+//     dispatch(setUserStatus(response))
+//   }
+// }
 
 export const updateStatus = (status: string) => {
   return async (dispatch: any) => {
@@ -111,6 +118,21 @@ export const setProfile = (profile: ProfileType, userID: number) => {
     }
     return response;
   }
+}
+
+export function* sagaWatcher() {
+  yield takeEvery(REQUEST_STATUS, sagaWorker);
+}
+
+function* sagaWorker(action:any) {
+  //@ts-ignore
+    const response = yield call(getStatus, action.id)
+    yield put(setUserStatus(response))
+}
+
+async function getStatus(id:number) {
+  const response = await profileAPI.getUserStatus(id);
+  return response;
 }
 
 export const profileReducer = (state = initialState, action: any): InitialStateType => {

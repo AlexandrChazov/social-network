@@ -1,12 +1,15 @@
 import {applyMiddleware, combineReducers, createStore, compose} from "redux";
 import thunk from "redux-thunk";
-import profileReducer from "./profile-reducer";
+import profileReducer, {sagaWatcher} from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
 import usersReducer from "./users-reducer";
 import authReducer from "./auth-reducer";
 import {appReducer} from "./app-reducer";
 import {fakeReducer} from "./fake-reducer";
+import createSagaMiddleware from "redux-saga";
+
+const sagaMiddleware = createSagaMiddleware();
 
 const reducers = combineReducers({
   profilePage: profileReducer,
@@ -25,10 +28,12 @@ export type AppStateType = ReturnType<reducersType>  // определить т�
 // state.profilePage.   // теперь при обращении с стейту будет появляться подсказка
 
 // @ts-ignore
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // подключаем REDUX DEVTOOLS
 const store = createStore(reducers, composeEnhancers(
-    applyMiddleware(thunk)
+    applyMiddleware(thunk, sagaMiddleware)
 ));
+
+sagaMiddleware.run(sagaWatcher);
 
 // const store = createStore(reducers, applyMiddleware(thunk));
 
