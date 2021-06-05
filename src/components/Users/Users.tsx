@@ -6,12 +6,12 @@ import {UserType} from "../../Types/types";
 type PropsType = {
     totalUsersCount: number
     usersPerPage: number
-    currentPage: number
+    currentPageNumber: number
     onPageChanged: (pageNumber: number) => void
     countOfDisplayingPages: number
     users: Array<UserType>
-    follow: () => void
-    unFollow: () => void
+    follow: (id:number) => void
+    unFollow: (id:number) => void
     usersWithToggleFollowing: Array<number>
 }
 
@@ -20,7 +20,7 @@ const Users: React.FC<PropsType> = (props) => {
       <div>
         <Paginator totalUsersCount={props.totalUsersCount}
                    usersPerPage={props.usersPerPage}
-                   currentPage={props.currentPage}
+                   currentPageNumber={props.currentPageNumber}
                    onPageChanged={props.onPageChanged}
                    countOfDisplayingPages = {props.countOfDisplayingPages}
         />

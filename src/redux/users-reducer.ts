@@ -52,12 +52,12 @@ export const setTotalUsersCount = (number: number): SetTotalUsersCountActionType
 
 type SetCurrentPageActionType = {
   type: typeof SET_CURRENT_PAGE
-  currentPage: number,
+  currentPageNumber: number,
 }
 
 export const setCurrentPage = (pageNumber: number): SetCurrentPageActionType => ({
   type: SET_CURRENT_PAGE,
-  currentPage: pageNumber,
+  currentPageNumber: pageNumber,
 })
 
 type ToggleIsFetchingActionType = {
@@ -85,7 +85,7 @@ export const toggleFollowing = (isFetching: boolean, id: number): ToggleFollowin
 const initialState = {
   users: [] as Array<UserType>,
   usersPerPage: 100,
-  currentPage: 1,
+  currentPageNumber: 1,
   totalUsersCount: 0,
   isFetching: true,
   usersWithToggleFollowing: [] as Array<number>, //array of users id
@@ -94,13 +94,13 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-export const getUsers = (usersPerPage: number, currentPage: number) => {
+export const getUsers = (usersPerPage: number, currentPageNumber: number) => {
   return async (dispatch: any) => {
     dispatch(toggleIsFetching(true));
-    const data = await usersAPI.getUsers(usersPerPage, currentPage);
+    const data = await usersAPI.getUsers(usersPerPage, currentPageNumber);
     dispatch(toggleIsFetching(false));
     dispatch(setUsers(data.items));
-    dispatch(setCurrentPage(currentPage))
+    dispatch(setCurrentPage(currentPageNumber))
     dispatch(setTotalUsersCount(data.totalCount));
   }
 }
@@ -167,7 +167,7 @@ const usersReducer = (state = initialState, action: any): InitialStateType => {
     case SET_CURRENT_PAGE: {
       return {
         ...state,
-        currentPage: action.currentPage
+        currentPageNumber: action.currentPageNumber
       }
     }
     case TOGGLE_FETCHING: {

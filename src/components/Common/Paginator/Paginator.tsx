@@ -4,12 +4,16 @@ import React, {useState} from "react";
 type PropsType = {
     totalUsersCount: number
     usersPerPage: number
-    currentPage: number
+    currentPageNumber: number
     onPageChanged: (pageNumber: number) => void
     countOfDisplayingPages: number
 }
 
-export const Paginator: React.FC<PropsType> = ({totalUsersCount, usersPerPage, currentPage, onPageChanged, countOfDisplayingPages}) => {
+export const Paginator: React.FC<PropsType> = ({totalUsersCount,
+                                                usersPerPage,
+                                                currentPageNumber,
+                                                onPageChanged,
+                                                countOfDisplayingPages}) => {
 
   const pages = [];
   const totalPagesCount = Math.ceil(totalUsersCount / usersPerPage);
@@ -47,7 +51,7 @@ export const Paginator: React.FC<PropsType> = ({totalUsersCount, usersPerPage, c
             pages.map((pageNumber) => {
               return (
                   <div key={pageNumber}
-                       className={`${styles.pageNumbers} ${pageNumber === currentPage ? styles.active : undefined}`}
+                       className={`${styles.pageNumbers} ${pageNumber === currentPageNumber ? styles.active : undefined}`}
                        onClick={() => {
                          onPageChanged(pageNumber)
                        }}>
