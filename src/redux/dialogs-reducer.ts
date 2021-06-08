@@ -40,7 +40,7 @@ const initialState = {
 
 type InitialStateType = typeof initialState;
 
-const dialogsReducer = (state = initialState, action: any): InitialStateType => {
+const dialogsReducer = (state = initialState, action: SendMessageActionType): InitialStateType => {
   switch (action.type) {
     case ADD_MESSAGE: {
       return {...state,

@@ -99,7 +99,7 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 type DispatchType = Dispatch<ActionsTypes>;
 
 export const getUsers = (usersPerPage: number, currentPageNumber: number): ThunkType => {
-    return async (dispatch: DispatchType) => {
+    return async (dispatch, getState) => {
         dispatch(toggleIsFetching(true));
         const data = await usersAPI.getUsers(usersPerPage, currentPageNumber);
         dispatch(toggleIsFetching(false));
@@ -109,9 +109,10 @@ export const getUsers = (usersPerPage: number, currentPageNumber: number): Thunk
     }
 }
 
-const _followUnfollowFlow = async (dispatch: DispatchType, apiMethod: any,
-                                  actionCreator: (id: number)=> FollowSuccessActionType | UnFollowSuccessActionType,
-                                  id: number) => {
+const _followUnfollowFlow = async (dispatch: DispatchType,
+                                   apiMethod: any,
+                                   actionCreator: (id: number)=> FollowSuccessActionType | UnFollowSuccessActionType,
+                                   id: number) => {
     dispatch(toggleFollowing(true, id));
     const data = await apiMethod(id);
     if (data.resultCode === 0) {
@@ -120,15 +121,15 @@ const _followUnfollowFlow = async (dispatch: DispatchType, apiMethod: any,
     }
 }
 
-export const unFollow = (id: number) => {
-    return (dispatch: any) => {
+export const unFollow = (id: number): ThunkType => {
+    return async (dispatch) => {
         const apiMethod = usersAPI.unFollow.bind(usersAPI);
         _followUnfollowFlow(dispatch, apiMethod, unFollowSuccess, id);
     }
 }
 
-export const follow = (id: number) => {
-    return (dispatch: any) => {
+export const follow = (id: number): ThunkType => {
+    return async (dispatch) => {
         const apiMethod = usersAPI.follow.bind(usersAPI);
         _followUnfollowFlow(dispatch, apiMethod, followSuccess, id);
     }

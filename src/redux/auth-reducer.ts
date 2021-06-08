@@ -1,4 +1,6 @@
 import {authAPI, securityAPI} from "../api/api";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./redux-store";
 
 const SET_AUTH_USER_DATA = "social-network/auth/SET_AUTH_USER_DATA";
 const SET_LOGIN_ERROR = "social-network/auth/SET_LOGIN_ERROR";
@@ -17,7 +19,11 @@ type SetAuthUserDataActionType = {
   captcha: string | null
 }
 
-export const setAuthUserData = (id: number | null, login: string | null, email: string | null, isAuth: boolean, captcha = null): SetAuthUserDataActionType => ({
+export const setAuthUserData = (id: number | null,
+                                login: string | null,
+                                email: string | null,
+                                isAuth: boolean,
+                                captcha = null): SetAuthUserDataActionType => ({
   type: SET_AUTH_USER_DATA,
   payload: {
     id,
@@ -57,10 +63,12 @@ const initialState = {
   captcha: null as string | null
 }
 
-type InitialStateType = typeof initialState
+type InitialStateType = typeof initialState;
+type ActionsTypes = SetAuthUserDataActionType | SetLoginErrorActionType | GetCaptchaUrlSuccessActionType;
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>;
 
-export const setUser = () => {
-  return async (dispatch: any) => {
+export const setUser = (): ThunkType => {
+  return async (dispatch) => {
     const response = await authAPI.setUserData();
     if (response.resultCode === 0) {
       const {email, login, id} = response.data;
@@ -69,23 +77,26 @@ export const setUser = () => {
   }
 }
 
-export const authorization = (email: string, password: string, rememberMe: boolean, captchaUrl: string) => {
-  return async (dispatch: any) => {
+export const authorization = (email: string,
+                              password: string,
+                              rememberMe: boolean,
+                              captchaUrl: string):ThunkType => {
+  return async (dispatch) => {
     const response = await authAPI.userAuthorization(email, password, rememberMe, captchaUrl);
     if (response.resultCode === 0) {
-      dispatch(setUser())
-      dispatch(setLoginError(null))
+      dispatch(setUser());
+      dispatch(setLoginError(null));
     } else {
       if (response.resultCode === 10) {
-        dispatch(getCaptcha())
+        dispatch(getCaptcha());
       }
       dispatch(setLoginError(response.messages[0]))
     }
   }
 }
 
-export const deleteAuth = () => {
-  return async (dispatch: any) => {
+export const deleteAuth = (): ThunkType => {
+  return async (dispatch) => {
     const response = await authAPI.deleteAuthorization();
       if (response.resultCode === 0) {
         dispatch(setAuthUserData(null, null, null, false))
@@ -93,14 +104,14 @@ export const deleteAuth = () => {
   }
 }
 
-export const getCaptcha = () => {
-  return async (dispatch: any) => {
+export const getCaptcha = (): ThunkType=> {
+  return async (dispatch) => {
     const response = await securityAPI.receiveCaptcha();
     dispatch(getCaptchaUrlSuccess(response))
   }
 }
 
-const authReducer = (state = initialState, action: any): InitialStateType => {
+const authReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
   switch (action.type) {
     case SET_AUTH_USER_DATA: {
       return {
@@ -119,7 +130,7 @@ const authReducer = (state = initialState, action: any): InitialStateType => {
     case GET_CAPTCHA_SUCCESS: {
       return {
         ...state,
-        captcha: action.captcha
+        captcha: action.captchaUrl
       }
     }
     default:

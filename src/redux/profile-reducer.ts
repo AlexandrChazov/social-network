@@ -1,6 +1,8 @@
 import {profileAPI} from "../api/api";
 import {ChatsArrayType, ProfileType} from "../Types/types";
 import {takeEvery, put, call} from "redux-saga/effects";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./redux-store";
 
 const ADD_POST = "social-network/profile/ADD-POST";
 const SET_USER_PROFILE = "social-network/profile/SET_USER_PROFILE";
@@ -64,6 +66,10 @@ export const requestStatus = (id: number) => ({
   id
 })
 
+type ActionsTypes = AddPostActionType | DeletePostActionType | SetUserProfileActionType
+                    | SetUserStatusActionType| SetPhotoSuccessActionType;
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+
 const initialState = {
   textareaValue: 'IT-kamasutra.com' as string,
   chats : [
@@ -78,8 +84,8 @@ const initialState = {
 
 type InitialStateType = typeof initialState;
 
-export const getProfileInfo = (id: number) => {
-  return async (dispatch: any) => {
+export const getProfileInfo = (id: number): ThunkType => {
+  return async (dispatch) => {
     const response = await profileAPI.getProfileInfo(id)
     dispatch(setUserProfile(response));
   }
@@ -92,8 +98,8 @@ export const getProfileInfo = (id: number) => {
 //   }
 // }
 
-export const updateStatus = (status: string) => {
-  return async (dispatch: any) => {
+export const updateStatus = (status: string): ThunkType => {
+  return async (dispatch) => {
     const response = await profileAPI.updateStatus(status)
       if (response.resultCode === 0) {
         dispatch(setUserStatus(status))
@@ -101,8 +107,8 @@ export const updateStatus = (status: string) => {
   }
 }
 
-export const setPhoto = (event: any) => {
-  return async (dispatch: any) => {
+export const setPhoto = (event: any): ThunkType => {
+  return async (dispatch) => {
     const response = await profileAPI.sendPhoto(event.target.files[0])
       if (response.data.resultCode === 0) {
         dispatch(setPhotoSuccess(response.data.data.photos.large))
@@ -110,8 +116,8 @@ export const setPhoto = (event: any) => {
   }
 }
 
-export const setProfile = (profile: ProfileType, userID: number) => {
-  return async (dispatch: any) => {
+export const setProfile = (profile: ProfileType, userID: number): ThunkType => {
+  return async (dispatch) => {
     const response = await profileAPI.sentProfileInfo(profile)
     if (response.resultCode === 0) {
       dispatch(getProfileInfo(userID))
@@ -126,8 +132,8 @@ export function* sagaWatcher() {
 
 function* sagaWorker(action:any) {
   //@ts-ignore
-    const response = yield call(getStatus, action.id)
-    yield put(setUserStatus(response))
+    const response = yield call(getStatus, action.id);
+    yield put(setUserStatus(response));
 }
 
 async function getStatus(id:number) {
@@ -135,7 +141,7 @@ async function getStatus(id:number) {
   return response;
 }
 
-export const profileReducer = (state = initialState, action: any): InitialStateType => {
+export const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
   switch (action.type) {
     case ADD_POST: {
       return {...state,
