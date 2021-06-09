@@ -101,11 +101,11 @@ type DispatchType = Dispatch<ActionsTypes>;
 export const getUsers = (usersPerPage: number, currentPageNumber: number): ThunkType => {
     return async (dispatch, getState) => {
         dispatch(toggleIsFetching(true));
-        const data = await usersAPI.getUsers(usersPerPage, currentPageNumber);
+        const response = await usersAPI.getUsers(usersPerPage, currentPageNumber);  // TS не подсказывает response.items... ((
         dispatch(toggleIsFetching(false));
-        dispatch(setUsers(data.items));
+        dispatch(setUsers(response.items));
         dispatch(setCurrentPage(currentPageNumber))
-        dispatch(setTotalUsersCount(data.totalCount));
+        dispatch(setTotalUsersCount(response.totalCount));
     }
 }
 
