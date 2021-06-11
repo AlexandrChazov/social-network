@@ -1,9 +1,15 @@
 import {composeValidators} from "../Common/FormValidation/FormValidation";
 import {Field} from "react-final-form";
 import React from "react";
-import * as styles from "./Login.module.css";
+import styles from "./Login.module.css";
+import {ValidatorType} from "../Common/FormValidation/FormValidation"
+import {ValuesKeys} from "./Login";
 
-export const fieldCreator = (name, validator, type, placeholder, label) => {
+export const fieldCreator = (name: ValuesKeys,
+                             validator: Array<ValidatorType>,
+                             type: string,
+                             placeholder: string,
+                             label: string): React.ReactNode => {
   return (
       <Field name={name} validate={composeValidators(...validator)}>
         {({input, meta}) => (
@@ -17,7 +23,8 @@ export const fieldCreator = (name, validator, type, placeholder, label) => {
                     </>
                     : <input {...input} type={type} placeholder={placeholder}/>
               }
-            </div>)}
+            </div>
+        )}
       </Field>
   )
 }

@@ -13,7 +13,7 @@ import store from "./redux/redux-store";
 import {withSuspense} from "./Hoc/withSuspense";
 
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
-const LoginContainer = React.lazy(() => import("./components/Login/LoginContainer"));
+const LoginContainer = React.lazy(() => import("./components/Login/LoginContainer.tsx"));
 
 class App extends React.Component {
 

@@ -118,7 +118,7 @@ const _followUnfollowFlow = async (dispatch: DispatchType,
     if (data.resultCode === 0) {
         dispatch(actionCreator(id));
         dispatch(toggleFollowing(false, id));
-    }
+    };
 }
 
 export const unFollow = (id: number): ThunkType => {

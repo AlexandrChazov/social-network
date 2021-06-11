@@ -84,6 +84,4 @@ export default compose(
     // setCurrentPage,
     getUsers
   })
-)
-//@ts-ignore
-(UsersContainer);
+)(UsersContainer);
