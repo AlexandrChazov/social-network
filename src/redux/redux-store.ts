@@ -24,6 +24,9 @@ const reducers = combineReducers({
 type reducersType = typeof reducers; //  вернёт что-то вроде функции (globalstate: AppStateType) => AppStateType
 export type AppStateType = ReturnType<reducersType>  // определить тип возвращаемого значения
 
+type InferValueTypes<T> = T extends { [key: string]: infer U } ? U : never;
+export type InferActionsTypes<T extends {[key:string]:(...args:any[])=>any}> = ReturnType<InferValueTypes<T>>
+
 // const state: AppStateType; // задаём тип нашего стейта
 // state.profilePage.   // теперь при обращении с стейту будет появляться подсказка
 
