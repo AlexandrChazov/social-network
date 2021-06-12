@@ -13,7 +13,7 @@ interface LoginValues {
     captcha: string
 }
 
-export type ValuesKeys = keyof LoginValues;
+export type LoginValuesKeys = Extract<keyof LoginValues, string>;  // выбираются только те ключи, которые имеют тип string
 
 const Login: React.FC<LoginMapStatePropsType & LoginMapDispatchPropsType>
     = ({authorization, loginError, captcha}) => {
@@ -28,8 +28,8 @@ const Login: React.FC<LoginMapStatePropsType & LoginMapDispatchPropsType>
                 }}
                 render={({handleSubmit, form, submitting, pristine, values}) => (
                     <form onSubmit={handleSubmit}>
-                        {fieldCreator("email", [validators.required, validators.emailValidation], "text", "email", "Login")}
-                        {fieldCreator("password", [validators.required, validators.minLength(6)], "password", "Password", "Password")}
+                        {fieldCreator<LoginValuesKeys>("email", [validators.required, validators.emailValidation], "text", "email", "Login")}
+                        {fieldCreator<LoginValuesKeys>("password", [validators.required, validators.minLength(6)], "password", "Password", "Password")}
                         <div>
                             <label>Remember me </label>
                             <Field name="rememberMe" component="input" type="checkbox"/>

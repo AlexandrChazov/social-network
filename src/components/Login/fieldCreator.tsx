@@ -3,13 +3,12 @@ import {Field} from "react-final-form";
 import React from "react";
 import styles from "./Login.module.css";
 import {ValidatorType} from "../Common/FormValidation/FormValidation"
-import {ValuesKeys} from "./Login";
 
-export const fieldCreator = (name: ValuesKeys,
+export function fieldCreator<FieldKeysType extends string>(name: FieldKeysType,  // generic-функция
                              validator: Array<ValidatorType>,
                              type: string,
                              placeholder: string,
-                             label: string): React.ReactNode => {
+                             label: string): React.ReactNode {
   return (
       <Field name={name} validate={composeValidators(...validator)}>
         {({input, meta}) => (
