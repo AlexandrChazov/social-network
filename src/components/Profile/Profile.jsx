@@ -8,7 +8,7 @@ const Profile = (props) => {
         <ProfileInfo profile = {props.profile}
                      status = {props.status}
                      updateStatus = {props.updateStatus}
-                     setPhoto = {props.setPhoto}
+                     setPhoto = {props.savePhoto}
                      isMyProfilePage = {props.isMyProfilePage}
                      setProfile = {props.setProfile}/>
         <MyPostsContainer />

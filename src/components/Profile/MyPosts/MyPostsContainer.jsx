@@ -1,18 +1,22 @@
 // import React from 'react';
-import {addPostActionCreator} from "../../../redux/profile-reducer";
+import {profileActions} from "../../../redux/profile-reducer";
 import MyPosts from "./MyPosts";
 import { connect } from "react-redux";
 
 const mapStateToProps = (state) => {
   return {
-    chats: state.profilePage.chats
+    posts: state.profilePage.posts
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addPost: (myMessage) => {
-      const action = addPostActionCreator(myMessage);
+      const action = profileActions.addPostActionCreator(myMessage);
+      dispatch(action);
+    },
+    deletePost: (id) => {
+      const action = profileActions.deletePost((id));
       dispatch(action);
     }
   }

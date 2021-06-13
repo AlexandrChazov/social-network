@@ -1,32 +1,24 @@
 import {setUser} from "./auth-reducer";
-import {ThunkAction} from "redux-thunk";
-import {AppStateType} from "./redux-store";
+import {InferActionsTypes, PrimaryThunkType} from "./redux-store";
 
-const SET_AUTHORIZATION = "social-network/app/SET_AUTHORIZATION";
-
-type SetAutorizationActionType = {
-  type: typeof SET_AUTHORIZATION
+const appActions = {
+  setAuthorization: () => ({
+    type: "app/SET_AUTHORIZATION"
+  } as const)
 }
-
-const setAuthorization = (): SetAutorizationActionType => ({
-  type: SET_AUTHORIZATION
-});
 
 const initialState = {
   isInitialized: false as boolean
 }
 
-type ActionsTypes = SetAutorizationActionType;
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>;
-
 export const initializeApp = (): ThunkType => async (dispatch) => {
   await dispatch(setUser());
-  await dispatch(setAuthorization());
+  await dispatch(appActions.setAuthorization());
 }
 
-export const appReducer = (state = initialState, action: ActionsTypes): typeof initialState => {
+export const appReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
   switch (action.type) {
-    case SET_AUTHORIZATION: {
+    case "app/SET_AUTHORIZATION": {
       return {
         ...state,
         isInitialized: true
@@ -37,3 +29,9 @@ export const appReducer = (state = initialState, action: ActionsTypes): typeof i
     }
   }
 }
+
+
+type InitialStateType = typeof initialState;
+
+type ActionsTypes = InferActionsTypes<typeof appActions>;
+type ThunkType = PrimaryThunkType<ActionsTypes>;

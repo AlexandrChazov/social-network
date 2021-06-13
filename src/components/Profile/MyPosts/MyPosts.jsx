@@ -42,7 +42,11 @@ const AddPostComponent = (props) => {
 
 const MyPosts = props => {
 
-  const chat = props.chats.map( m => <Post message={m.mess} likesCount={m.likesCount} key = {m.id} />);
+  const chat = props.posts.map( m => <Post message={m.mess}
+                                           likesCount={m.likesCount}
+                                           id={m.id}
+                                           deletePost = {props.deletePost}
+                                           key = {m.id}/>);
 
   const onAddPost = (myMessage) => {
     props.addPost(myMessage);
@@ -52,7 +56,7 @@ const MyPosts = props => {
       <div className={styles.postsBlock}>
         <h3>MyPosts</h3>
         <div>
-          <AddPostComponent onAddPost = {onAddPost}/>
+          <AddPostComponent onAddPost = {onAddPost} />
         </div>
         <div className={styles.posts}>
           { chat }

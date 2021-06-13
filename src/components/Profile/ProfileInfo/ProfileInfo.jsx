@@ -5,7 +5,7 @@ import ProfileStatus from "./ProfileStatusWithHook";
 import ProfileDataForm from "./ProfileDataForm";
 import ProfileData from "./ProfileData";
 
-const ProfileInfo = ({profile, status, updateStatus, setPhoto, isMyProfilePage, setProfile}) => {
+const ProfileInfo = ({profile, status, updateStatus, savePhoto, isMyProfilePage, setProfile}) => {
   const [isEditMode, setEditMode] = useState(false);
 
   if (!profile) {
@@ -17,7 +17,7 @@ const ProfileInfo = ({profile, status, updateStatus, setPhoto, isMyProfilePage, 
             <div className={styles.descriptionBlock}>
               <div>{profile.fullName}</div>
               <img alt = "profile" src = {profile.photos.large} />
-              {isMyProfilePage && <input type="file" onChange={setPhoto}/>}
+              {isMyProfilePage && <input type="file" onChange={savePhoto}/>}
               {isEditMode
                   ? <div>
                       <ProfileDataForm profile = {profile}
