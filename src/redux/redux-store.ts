@@ -24,8 +24,7 @@ const reducers = combineReducers({
 type reducersType = typeof reducers; //  вернёт что-то вроде функции (globalstate: AppStateType) => AppStateType
 export type AppStateType = ReturnType<reducersType>  // определить тип возвращаемого значения
 
-type InferValueTypes<T> = T extends { [key: string]: infer U } ? U : never;
-export type InferActionsTypes<T extends {[key:string]:(...args:any[])=>any}> = ReturnType<InferValueTypes<T>>
+export type InferActionsTypes<T> = T extends { [key: string]: (...args: any[]) => infer U } ? U : never;
 
 export type PrimaryThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>;
 

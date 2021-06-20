@@ -4,11 +4,20 @@ import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import { Form, Field } from 'react-final-form';
 import {validators} from "../Common/FormValidation/FormValidation";
+import { InitialStateType } from '../../redux/dialogs-reducer';
 
-const DialogsMessage = (props) => {
+type DialogsMessageOwnPropsType = {
+    onSendMessage: (myMessage: string) => void
+}
+
+interface DialogsMessageValues {
+    myMessage: string
+}
+
+const DialogsMessage: React.FC<DialogsMessageOwnPropsType> = (props) => {
   return (
       <Form
-          onSubmit={(values) => {
+          onSubmit={(values: DialogsMessageValues) => {
             props.onSendMessage(values.myMessage);
             values.myMessage = "";
           }}
@@ -20,14 +29,13 @@ const DialogsMessage = (props) => {
                         {meta.error
                           ? <>
                               <textarea {...input}
-                                        type = "text"
                                         placeholder="Type your message"
-                                        rows = "5"
-                                        cols = "25"
+                                        rows ={5}
+                                        cols ={25}
                                         className = {styles.redBorder} />
                               <span className={styles.errorMessage}>{meta.error}</span>
                             </>
-                          : <textarea {...input} type = "text" placeholder="Type your message" rows = "5" cols = "25" />
+                          : <textarea {...input} placeholder="Type your message" rows ={5} cols ={25} />
                         }
                       </div>
                   )}
@@ -39,12 +47,17 @@ const DialogsMessage = (props) => {
   )
 }
 
-const Dialogs = (props) => {
+type DialogsOwnPropsType = {
+    dialogsPage: InitialStateType
+    sendMessage: (myMessage: string) => void
+}
+
+const Dialogs: React.FC<DialogsOwnPropsType> = (props) => {
 
   const dialog = props.dialogsPage.dialogs.map( d => <DialogItem ava= {d.ava} name={d.name} id={d.id} key={d.id} />);
   const message = props.dialogsPage.messages.map( m => <Message message={m.message} key = {m.id} />);
 
-  const onSendMessage = (myMessage) => {
+  const onSendMessage = (myMessage: string) => {
     props.sendMessage(myMessage);
   }
 
