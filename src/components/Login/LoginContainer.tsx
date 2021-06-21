@@ -1,3 +1,4 @@
+import React from "react";
 import Login from "./Login";
 import {connect} from "react-redux";
 import {authorization} from "../../redux/auth-reducer";
@@ -26,7 +27,7 @@ const mapStateToProps = (state: AppStateType): LoginMapStatePropsType => ({
 export default compose(
     connect<LoginMapStatePropsType, LoginMapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {authorization}),
     withProfileRedirect
-)(Login)
+)(Login) as React.ComponentType;
 
 
 

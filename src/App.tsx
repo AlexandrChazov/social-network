@@ -9,13 +9,21 @@ import HeaderContainer from "./components/Header/HeaderContainer";
 import {connect, Provider} from "react-redux";
 import {initializeApp} from "./redux/app-reducer";
 import Preloader from "./components/Common/Preloader/Preloader";
-import store from "./redux/redux-store";
+import store, {AppStateType} from "./redux/redux-store";
 import {withSuspense} from "./Hoc/withSuspense";
 
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
-const LoginContainer = React.lazy(() => import("./components/Login/LoginContainer.tsx"));
+const LoginContainer = React.lazy(() => import("./components/Login/LoginContainer"));
 
-class App extends React.Component {
+type MapPropsType = ReturnType<typeof mapStateToProps>;
+type DispatchPropsType = {
+  initializeApp: () => void
+}
+
+const SuspendedLogin = withSuspense(LoginContainer);
+const SuspendedDialogs = withSuspense(DialogsContainer);
+
+class App extends React.Component<MapPropsType & DispatchPropsType> {
 
   catchAllUnhandledErrors = () => {
     alert("Some error occurred")
@@ -43,10 +51,12 @@ class App extends React.Component {
               <Switch>
                 <Redirect exact from="/" to="/profile" />
                 <Route path="/Profile/:userID?" render={() => <ProfileContainer/>}/>
-                <Route path="/Dialogs" render={withSuspense(DialogsContainer)}/>
+                {/*<Route path="/Dialogs" render={() => withSuspense(DialogsContainer)}/> заменяем строчкой ниже, т.к. TS хочет видеть тут отрисовку компоненты, а не вызов функции*/}
+                <Route path="/Dialogs" render={() => <SuspendedDialogs/>}/>
                 <Route path="/News" render={() => <News/>}/>
                 <Route path="/Users" render={() => <UsersContainer title="Список пользователей" />}/>
-                <Route path="/Login" render={withSuspense(LoginContainer)}/>
+                {/*<Route path="/Login" render={() => withSuspense(LoginContainer)}/> заменяем строчкой ниже, т.к. TS хочет видеть тут отрисовку компоненты, а не вызов функции*/}
+                <Route path="/Login" render={() => <SuspendedLogin/>}/>
                 <Route path="*" render={() => <div>404 NOT FOUND</div>}/>
               </Switch>
             </div>
@@ -56,15 +66,15 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
   isInitialized: state.app.isInitialized
 })
 
 // export default connect(mapStateToProps, {initializeApp})(App);
 
-const AppContainer = connect(mapStateToProps, {initializeApp})(App);
+const AppContainer = connect(mapStateToProps, {initializeApp})(App) as React.ComponentType;
 
-const MainApp = (props) => {
+const MainApp = () => {
   return (
       <React.StrictMode>
         <Provider store={store}>
