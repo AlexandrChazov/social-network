@@ -2,18 +2,17 @@ import React from "react";
 import {Form, Field} from 'react-final-form';
 import styles from "./Login.module.css"
 import {validators} from "../Common/FormValidation/FormValidation";
-import {fieldCreator} from "./fieldCreator";
-import createField from "../Common/createField";
+import {fieldCreator} from "../Common/fieldCreator";
 import {LoginMapDispatchPropsType, LoginMapStatePropsType} from "./LoginContainer";
 
-interface LoginValues {
+interface FormValues {
     email: string
     password: string
     rememberMe: boolean
     captcha: string
 }
 
-export type LoginValuesKeys = Extract<keyof LoginValues, string>;  // выбираются только те ключи, которые имеют тип string
+export type LoginValuesKeys = Extract<keyof FormValues, string>;  // выбираются только те ключи, которые имеют тип string
 
 const Login: React.FC<LoginMapStatePropsType & LoginMapDispatchPropsType>
     = ({authorization, loginError, captcha}) => {
@@ -23,19 +22,19 @@ const Login: React.FC<LoginMapStatePropsType & LoginMapDispatchPropsType>
                 Login
             </h1>
             <Form
-                onSubmit={(values: LoginValues) => {
+                onSubmit={(values: FormValues) => {
                     authorization(values.email, values.password, values.rememberMe, values.captcha);
                 }}
                 render={({handleSubmit, form, submitting, pristine, values}) => (
                     <form onSubmit={handleSubmit}>
-                        {fieldCreator<LoginValuesKeys>("email", [validators.required, validators.emailValidation], "text", "email", "Login")}
-                        {fieldCreator<LoginValuesKeys>("password", [validators.required, validators.minLength(6)], "password", "Password", "Password")}
+                        {fieldCreator<LoginValuesKeys>("input","email", [validators.required, validators.emailValidation], "text", "email", "Login")}
+                        {fieldCreator<LoginValuesKeys>("input","password", [validators.required, validators.minLength(6)], "password", "Password", "Password")}
                         <div>
                             <label>Remember me </label>
                             <Field name="rememberMe" component="input" type="checkbox"/>
                         </div>
                         {captcha && <img src={captcha} alt="captcha"/>}
-                        {captcha && createField("captcha", "input", "text", "type symbols from image", "Image text")}
+                        {captcha && fieldCreator<LoginValuesKeys>("input","captcha", [] ,"text", "type symbols from image", "Image text")}
                         <div>
                             <button type="submit" disabled={submitting || pristine}>
                                 Submit

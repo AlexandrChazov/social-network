@@ -10,14 +10,14 @@ type DialogsMessageOwnPropsType = {
     onSendMessage: (myMessage: string) => void
 }
 
-interface DialogsMessageValues {
+interface FormValues {
     myMessage: string
 }
 
 const DialogsMessage: React.FC<DialogsMessageOwnPropsType> = (props) => {
   return (
       <Form
-          onSubmit={(values: DialogsMessageValues) => {
+          onSubmit={(values: FormValues) => {
             props.onSendMessage(values.myMessage);
             values.myMessage = "";
           }}

@@ -1,7 +1,14 @@
 import React from 'react';
 import styles from './Post.module.css';
 
-const Post = ({id, message, likesCount, deletePost}) => {
+type PropsType = {
+    id: number
+    message: string
+    likesCount: number
+    deletePost: (id:number)=>void
+}
+
+const Post: React.FC<PropsType> = ({id, message, likesCount, deletePost}) => {
   return (
       <div className={styles.item}>
         <div>
