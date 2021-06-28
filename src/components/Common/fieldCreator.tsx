@@ -1,6 +1,6 @@
-import {composeValidators} from "./FormValidation/FormValidation";
-import {Field} from "react-final-form";
 import React from "react";
+import {Field} from "react-final-form";
+import {composeValidators} from "./FormValidation/FormValidation";
 import styles from "../Login/Login.module.css";
 import {ValidatorType} from "./FormValidation/FormValidation"
 
@@ -13,7 +13,7 @@ export function fieldCreator<FieldKeysType extends string>(         // generic-Ñ
                                 label?: string,
                                 cols?: number,
                                 rows?: number): React.ReactNode {
-  return (
+    return (
       <Field name={name} validate={composeValidators(...validator)}>
         {({input, meta}) => (
             <div>
