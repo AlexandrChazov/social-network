@@ -67,8 +67,7 @@ export const updateStatus = (status: string): ThunkType => {
         const response = await profileAPI.updateStatus(status);
         if (response.resultCode === ResultCodesEnum.Success) {
             dispatch(profileActions.setUserStatus(status))
-        }
-        ;
+        };
     };
 };
 

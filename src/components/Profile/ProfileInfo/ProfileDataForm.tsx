@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Field, Form} from "react-final-form";
+import {Form} from "react-final-form";
 import styles from "./AboutMe.module.css"
 import {createField} from "../../Common/createField";
 import {ProfileType} from "../../../Types/types";
@@ -20,7 +20,7 @@ export type FormValues = {
     "contacts.mainLink": string
 }
 
-type FieldsNamesType = keyof FormValues;
+type FieldsNamesType = Extract<keyof FormValues, string>;
 
 type PropsType = {
     profile: ProfileType
