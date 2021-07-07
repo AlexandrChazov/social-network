@@ -71,9 +71,9 @@ export const updateStatus = (status: string): ThunkType => {
     };
 };
 
-export const savePhoto = (event: Event): ThunkType => {
+export const setPhoto = (event: Event): ThunkType => {
     return async (dispatch) => {
-        const target= event.target as HTMLInputElement;
+        const target = event.target as HTMLInputElement;
         const response = await profileAPI.savePhoto((target.files as FileList)[0])
         if (response.resultCode === ResultCodesEnum.Success) {
             dispatch(profileActions.setPhotoSuccess(response.data.photos.large))

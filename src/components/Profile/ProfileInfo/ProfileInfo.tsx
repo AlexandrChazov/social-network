@@ -11,12 +11,12 @@ type PropsType = {
     profile: ProfileType
     status: string
     updateStatus: (status: string) => void
-    savePhoto: (event: ChangeEvent<HTMLInputElement>) => void
+    setPhoto: (event: ChangeEvent<HTMLInputElement>) => void
     isMyProfilePage: boolean
     setProfile: (profile: FormValues, userID: number) => PrimaryResponseType
 }
 
-const ProfileInfo: React.FC<PropsType> = ({profile, status, updateStatus, savePhoto, isMyProfilePage, setProfile}) => {
+const ProfileInfo: React.FC<PropsType> = ({profile, status, updateStatus, setPhoto, isMyProfilePage, setProfile}) => {
   const [isEditMode, setEditMode] = useState(false);
 
     if (!profile) {
@@ -34,7 +34,7 @@ const ProfileInfo: React.FC<PropsType> = ({profile, status, updateStatus, savePh
             <div className={styles.descriptionBlock}>
               <div>{profile.fullName}</div>
               <img alt = "profile" src = {profile.photos.large} />
-              {isMyProfilePage && <input type="file" onChange={savePhoto}/>}
+              {isMyProfilePage && <input type="file" onChange={setPhoto}/>}
               {isEditMode
                   ? <div>
                       <ProfileDataForm profile = {profile}

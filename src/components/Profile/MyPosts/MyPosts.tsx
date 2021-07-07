@@ -5,7 +5,6 @@ import { Form, Field } from 'react-final-form';
 import {validators} from "../../Common/FormValidation/FormValidation";
 import {ChatsArrayType} from "../../../Types/types";
 import {fieldCreator} from "../../Common/fieldCreator";
-import {LoginValuesKeys} from "../../Login/Login";
 
 type AddPostComponentPropsType = {
     onAddPost: (myMessage:string) => void
@@ -36,22 +35,6 @@ const AddPostComponent: React.FC<AddPostComponentPropsType> = (props) => {
                         "",
                         20,
                         3)}
-                  {/*<Field name="myMessage"  validate={validators.maxLength(30)} >*/}
-                  {/*  {*/}
-                  {/*    ({input, meta}) => (*/}
-                  {/*        <div>*/}
-                  {/*          {*/}
-                  {/*            meta.error*/}
-                  {/*              ? <>*/}
-                  {/*                  <textarea {...input} placeholder="Input your message" rows ={5} cols ={25} className={styles.redBorder}/>*/}
-                  {/*                  <span className={styles.errorMessage}>{meta.error}</span>*/}
-                  {/*                </>*/}
-                  {/*              : <textarea {...input} placeholder="Input your message" rows={5} cols ={25}/>*/}
-                  {/*          }*/}
-                  {/*        </div>*/}
-                  {/*    )*/}
-                  {/*  }*/}
-                  {/*</Field>*/}
                 </div>
                 <div>
                   <button type="submit" disabled={!values.myMessage} >Add post</button>
@@ -62,13 +45,16 @@ const AddPostComponent: React.FC<AddPostComponentPropsType> = (props) => {
   )
 }
 
-type MyPostsPropsType = {
-    deletePost: (id:number) => void
-    addPost: (myMessage:string) => void
+export type MapPropsType = {
     posts: Array<ChatsArrayType>
 }
 
-const MyPosts: React.FC<MyPostsPropsType> = props => {
+export type DispatchPropsType = {
+    deletePost: (id:number) => void
+    addPost: (myMessage:string) => void
+}
+
+const MyPosts: React.FC<MapPropsType & DispatchPropsType> = props => {
 
   const chat = props.posts.map( m => <Post message={m.mess}
                                            likesCount={m.likesCount}

@@ -1,6 +1,11 @@
 import React from "react";
+import {ProfileType} from "../../../Types/types";
 
-const ProfileData = ({profile}) => {
+type PropsType = {
+      profile: ProfileType
+}
+
+const ProfileData: React.FC<PropsType> = ({profile}) => {
 
   return (
       <div>
