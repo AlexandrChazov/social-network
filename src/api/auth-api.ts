@@ -1,6 +1,6 @@
 import {instance, PrimaryResponseType, ResultCodeForCaptcha, ResultCodesEnum} from "./api";
 
-type SetUserDataType = {
+export type SetUserDataType = {
     id: number
     email: string
     login: string

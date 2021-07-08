@@ -67,7 +67,7 @@ export const authorization = (email: string,
   }
 }
 
-export const deleteAuth = (): ThunkType => {
+export const logout = (): ThunkType => {
   return async (dispatch) => {
     const response = await authAPI.logout();
       if (response.resultCode === ResultCodesEnum.Success) {

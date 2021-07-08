@@ -13,7 +13,7 @@ const sidebarReducer = (state = initialState, action: any): InitialStateType => 
 export default sidebarReducer;
 
 
-type FriendsArrayType = {
+export type FriendsArrayType = {
     name: string
     id: number
     photoUrl: string

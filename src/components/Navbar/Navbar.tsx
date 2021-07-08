@@ -2,8 +2,13 @@ import React from 'react';
 import styles from './Navbar.module.css';
 import { NavLink } from "react-router-dom";
 import Friend from "./Friend/Friend";
+import {FriendsArrayType} from "../../redux/sidebar-reducer";
 
-const Navbar = (props) => {
+type PropsType = {
+    friends: Array<FriendsArrayType>
+}
+
+const Navbar: React.FC<PropsType> = (props) => {
   const friends = props.friends.map( (f) => <Friend friend = {f.name} img = {f.photoUrl} key = {f.id} />)
   return (
     <div>

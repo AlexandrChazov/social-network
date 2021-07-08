@@ -1,6 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 
-const ProfileStatus = React.memo(props => {
+type PropsType = {
+  status:string
+  updateStatus: (status: string) => void
+}
+
+const ProfileStatus: React.FC<PropsType> = props => {
 
   const [isEditModeOn, setEditMode] = useState(false);
 
@@ -10,7 +15,7 @@ const ProfileStatus = React.memo(props => {
     setStatus(props.status)
   }, [props.status])
 
-  const onStatusChange = (e) => {
+  const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
     setStatus(e.currentTarget.value)
   }
   //
@@ -32,6 +37,6 @@ const ProfileStatus = React.memo(props => {
           }
         </div>
     )
-})
+}
 
 export default ProfileStatus;
