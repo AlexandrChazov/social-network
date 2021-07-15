@@ -4,15 +4,15 @@ import React, {useState} from "react";
 type PropsType = {
     totalUsersCount: number
     usersPerPage: number
-    currentPageNumber: number
-    onPageChanged: (pageNumber: number) => void
     countOfDisplayingPages: number
+    currentPageNumber?: number
+    onPageChanged?: (pageNumber: number) => void
 }
 
 export const Paginator: React.FC<PropsType> = ({totalUsersCount,
                                                 usersPerPage,
                                                 currentPageNumber,
-                                                onPageChanged,
+                                                onPageChanged = x => x, // по умолчанию стоит функция-заглушка, так как этого аргумента может и не быть (в тестах его нет)
                                                 countOfDisplayingPages}) => {
 
   const pages = [];
@@ -32,7 +32,7 @@ export const Paginator: React.FC<PropsType> = ({totalUsersCount,
 
   return (
       <div className={styles.pagination}>
-        <button className={styles.buttonWithArrow}
+        <button className={`${styles.buttonWithArrow} firstPageButton`}
                 onClick={() => {
                   setBlockNumber(1)
                 }}
@@ -68,7 +68,7 @@ export const Paginator: React.FC<PropsType> = ({totalUsersCount,
                 disabled={!totalPagesCount || blockNumber === countOfBlocks}>
           &#62;
         </button>
-        <button className={styles.buttonWithArrow}
+        <button className={`${styles.buttonWithArrow} lastPageButton`}
                 onClick={() => {
                   setBlockNumber(countOfBlocks)
                 }}

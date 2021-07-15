@@ -3,8 +3,6 @@ import Header, {HeaderDispatchPropsType, HeaderMapPropsType} from "./Header";
 import {connect} from "react-redux";
 import { logout } from "../../redux/auth-reducer";
 import {AppStateType} from "../../redux/redux-store";
-import {PrimaryResponseType} from "../../api/api";
-import {SetUserDataType} from "../../api/auth-api";
 
 class HeaderContainer extends React.Component<HeaderMapPropsType & HeaderDispatchPropsType> {
 
