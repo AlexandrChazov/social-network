@@ -6,6 +6,7 @@ describe("ProfileStatus Component", () => {  // объединяет тесты 
   test("status from props should be in state", () => {
     const component = create(<ProfileStatus status="Some text" />);
     const instance = component.getInstance();
+    //@ts-ignore
     expect(instance.state.status).toBe("Some text");
   });
 
@@ -45,6 +46,7 @@ describe("ProfileStatus Component", () => {  // объединяет тесты 
     const mockCallback = jest.fn();  // гуглим "jest fn" шпионская ф-ция, которая будет отслеживать кол-во вызовов
     const component = create(<ProfileStatus status="Some text" updateStatus = {mockCallback} />);
     const instance = component.getInstance();
+    //@ts-ignore
     instance.editModeOff();                 // вызывем метод класса ProfileStatus который вызовет колбек updateStatus
     expect(mockCallback.mock.calls.length).toBe(1);  // ф-ция mockCallback вызывалась один раз, а значит и метод updateStatus вызывался
   })

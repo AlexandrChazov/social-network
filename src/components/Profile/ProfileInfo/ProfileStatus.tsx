@@ -2,7 +2,7 @@ import React, {ChangeEvent} from "react";
 
 type PropsType = {
   status: string
-  updateStatus: (status: string) => void
+  updateStatus?: (status: string) => void // необязательный параметр, так как в некоторых тестах не используется
 };
 
 type StateType = {
@@ -36,7 +36,7 @@ class ProfileStatus extends React.Component<PropsType, StateType> {
     this.setState({
         isEditModeOn: false
     })
-    this.props.updateStatus(this.state.status)
+    this.props.updateStatus && this.props.updateStatus(this.state.status) // проверка существует ли функция updateStatus чтобы не ругался TS
   }
 
   state = {
