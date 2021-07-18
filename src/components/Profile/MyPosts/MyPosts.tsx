@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './MyPosts.module.css';
 import Post from "./Post/Post";
-import { Form, Field } from 'react-final-form';
+import { Form } from 'react-final-form';
 import {validators} from "../../Common/FormValidation/FormValidation";
 import {ChatsArrayType} from "../../../Types/types";
 import {fieldCreator} from "../../Common/fieldCreator";

@@ -9,7 +9,7 @@ type PropsType = {
 }
 
 const Navbar: React.FC<PropsType> = (props) => {
-  const friends = props.friends.map( (f) => <Friend friend = {f.name} img = {f.photoUrl} key = {f.id} />)
+  const friends = props.friends.map( (f) => <Friend name = {f.name} img = {f.photoUrl} key = {f.id} />)
   return (
     <div>
       <nav className={styles.navbar}>

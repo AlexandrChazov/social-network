@@ -1,8 +1,6 @@
 import React from 'react';
 import styles from './Header.module.css'
 import {NavLink} from "react-router-dom";
-import {PrimaryResponseType} from "../../api/api";
-import {SetUserDataType} from "../../api/auth-api";
 
 export type HeaderMapPropsType = {
     isAuth: boolean
