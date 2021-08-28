@@ -1,4 +1,4 @@
-import {actions, follow, unFollow} from "./users-reducer";
+import {usersActions, follow, unFollow} from "./users-reducer";
 import {usersAPI} from "../api/users-api";
 import {PrimaryResponseType, ResultCodesEnum} from "../api/api";
 
@@ -28,9 +28,9 @@ test("success follow thunk", async () => {
     await thunk(dispatchMock, getStateMock, {});   // можно передать только "dispatchMock", остальные два параметра сугубо для TS
 
     expect(dispatchMock).toBeCalledTimes(3);
-    expect(dispatchMock).toHaveBeenNthCalledWith(1, actions.toggleFollowing(true, 1));  // первый диспатч вызовет экшн toggleFollowing с аргументами "true" и "1"
-    expect(dispatchMock).toHaveBeenNthCalledWith(2, actions.followSuccess(1));                   // второй диспатч вызовет экшн followSuccess с аргументом "1"
-    expect(dispatchMock).toHaveBeenNthCalledWith(3, actions.toggleFollowing(false, 1)); // третий диспатч вызовет экшн toggleFollowing с указанными аргументами
+    expect(dispatchMock).toHaveBeenNthCalledWith(1, usersActions.toggleFollowing(true, 1));  // первый диспатч вызовет экшн toggleFollowing с аргументами "true" и "1"
+    expect(dispatchMock).toHaveBeenNthCalledWith(2, usersActions.followSuccess(1));                   // второй диспатч вызовет экшн followSuccess с аргументом "1"
+    expect(dispatchMock).toHaveBeenNthCalledWith(3, usersActions.toggleFollowing(false, 1)); // третий диспатч вызовет экшн toggleFollowing с указанными аргументами
 })
 
 test("success unFollow thunk", async () => {
@@ -40,7 +40,7 @@ test("success unFollow thunk", async () => {
     await thunk(dispatchMock, getStateMock, {});   // можно передать только "dispatchMock", остальные два параметра сугубо для TS
 
     expect(dispatchMock).toBeCalledTimes(3);
-    expect(dispatchMock).toHaveBeenNthCalledWith(1, actions.toggleFollowing(true, 1));  // первый диспатч вызовет экшн toggleFollowing с аргументами "true" и "1"
-    expect(dispatchMock).toHaveBeenNthCalledWith(2, actions.unFollowSuccess(1));                   // второй диспатч вызовет экшн followSuccess с аргументом "1"
-    expect(dispatchMock).toHaveBeenNthCalledWith(3, actions.toggleFollowing(false, 1)); // третий диспатч вызовет экшн toggleFollowing с указанными аргументами
+    expect(dispatchMock).toHaveBeenNthCalledWith(1, usersActions.toggleFollowing(true, 1));  // первый диспатч вызовет экшн toggleFollowing с аргументами "true" и "1"
+    expect(dispatchMock).toHaveBeenNthCalledWith(2, usersActions.unFollowSuccess(1));                   // второй диспатч вызовет экшн followSuccess с аргументом "1"
+    expect(dispatchMock).toHaveBeenNthCalledWith(3, usersActions.toggleFollowing(false, 1)); // третий диспатч вызовет экшн toggleFollowing с указанными аргументами
 })
