@@ -2,22 +2,29 @@ import React from "react";
 import {Paginator} from "../Common/Paginator/Paginator";
 import {UserType} from "../../Types/types";
 import {User} from "./User";
+import UsersSearchForm from "./UsersSearchForm";
 
 type PropsType = {
     totalUsersCount: number
     usersPerPage: number
     currentPageNumber: number
-    onPageChanged: (pageNumber: number) => void
     countOfDisplayingPages: number
+    usersWithToggleFollowing: Array<number>
     users: Array<UserType>
+    term: string
+    onPageChanged: (pageNumber: number) => void
     follow: (id:number) => void
     unFollow: (id:number) => void
-    usersWithToggleFollowing: Array<number>
+    getUsers: (usersPerPage: number, currentPageNumber: number, term: string) => void
 }
 
 const Users: React.FC<PropsType> = (props) => {
   return (
       <div>
+        <UsersSearchForm term={props.term}
+                         usersPerPage={props.usersPerPage}
+                         currentPageNumber={props.currentPageNumber}
+                         getUsers={props.getUsers}/>
         <Paginator totalUsersCount={props.totalUsersCount}
                    usersPerPage={props.usersPerPage}
                    currentPageNumber={props.currentPageNumber}

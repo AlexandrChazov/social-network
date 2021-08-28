@@ -1,5 +1,5 @@
 import React from "react";
-import { unFollow, follow, getUsers } from "../../redux/users-reducer";
+import { unFollow, follow, getUsers, usersActions } from "../../redux/users-reducer";
 import { connect } from "react-redux";
 import Users from "./Users";
 import Preloader from "../Common/Preloader/Preloader";
@@ -17,12 +17,13 @@ type MapStatePropsType = {
     usersWithToggleFollowing: Array<number>
     countOfDisplayingPages: number
     isFetching: boolean
+    term: string
 }
 
 type MapDispatchPropsType = {
     unFollow: (id:number) => void
     follow: (id:number) => void
-    getUsers: (usersPerPage: number, currentPageNumber: number) => void
+    getUsers: (usersPerPage: number, currentPageNumber: number, term: string) => void
 }
 
 type OwnPropsType = {
@@ -34,13 +35,13 @@ type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType;  // Pr
 class UsersContainer extends React.Component<PropsType> {
 
   componentDidMount() {
-    const {usersPerPage, currentPageNumber} = this.props;
-    this.props.getUsers(usersPerPage, currentPageNumber)
+    const {usersPerPage, currentPageNumber, term} = this.props;
+    this.props.getUsers(usersPerPage, currentPageNumber, term)
   }
 
   onPageChanged = (pageNumber: number) => {
-    const {usersPerPage} = this.props;
-    this.props.getUsers(usersPerPage, pageNumber)
+    const {usersPerPage, term} = this.props;
+    this.props.getUsers(usersPerPage, pageNumber, term)
   }
 
   render() {
@@ -57,7 +58,9 @@ class UsersContainer extends React.Component<PropsType> {
               usersWithToggleFollowing = {this.props.usersWithToggleFollowing}
               // toggleFollowing = {this.props.toggleFollowing}
               countOfDisplayingPages = {this.props.countOfDisplayingPages}
-              onPageChanged = {this.onPageChanged} />
+              onPageChanged = {this.onPageChanged}
+              term={this.props.term}
+              getUsers = {this.props.getUsers}/>
           { this.props.isFetching ? <Preloader /> : null }
         </>
     )
@@ -74,14 +77,15 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     isFetching: state.usersPage.isFetching,
     usersWithToggleFollowing: state.usersPage.usersWithToggleFollowing,
     countOfDisplayingPages: state.usersPage.countOfDisplayingPages,
+    term: state.usersPage.term
     // paginatorPagesBlockNumber: state.usersPage.paginatorPagesBlockNumber
   }
 }
+
 export default compose(
   connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
     unFollow,
     follow,
-    // setCurrentPage,
     getUsers
   })
 )(UsersContainer);
