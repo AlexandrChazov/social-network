@@ -6,3 +6,10 @@ const setUsers = (state: AppStateType) => {
 }
 
 export const setUsersSelector = createSelector(setUsers, users => users.filter(el => true))
+
+
+const setFilter = (state: AppStateType) => {
+  return state.usersPage
+}
+
+export const getUsersFilter = createSelector(setFilter, usersPage => usersPage.filter)
