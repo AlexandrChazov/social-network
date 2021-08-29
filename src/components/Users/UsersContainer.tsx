@@ -1,11 +1,11 @@
 import React from "react";
-import { unFollow, follow, getUsers, usersActions } from "../../redux/users-reducer";
+import {unFollow, follow, getUsers, FilterType} from "../../redux/users-reducer";
 import { connect } from "react-redux";
 import Users from "./Users";
 import Preloader from "../Common/Preloader/Preloader";
 // import withAuthRedirect from "../Hoc/withAuthRedirect";
 import {compose} from "redux";
-import {setUsersSelector} from "../../redux/users-selectors";
+import {getUsersFilter, setUsersSelector} from "../../redux/users-selectors";
 import {UserType} from "../../Types/types";
 import {AppStateType} from "../../redux/redux-store";
 
@@ -17,13 +17,13 @@ type MapStatePropsType = {
     usersWithToggleFollowing: Array<number>
     countOfDisplayingPages: number
     isFetching: boolean
-    term: string
+    filter: FilterType
 }
 
 type MapDispatchPropsType = {
     unFollow: (id:number) => void
     follow: (id:number) => void
-    getUsers: (usersPerPage: number, currentPageNumber: number, term: string) => void
+    getUsers: (usersPerPage: number, currentPageNumber: number, filter: FilterType) => void
 }
 
 type OwnPropsType = {
@@ -35,13 +35,13 @@ type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType;  // Pr
 class UsersContainer extends React.Component<PropsType> {
 
   componentDidMount() {
-    const {usersPerPage, currentPageNumber, term} = this.props;
-    this.props.getUsers(usersPerPage, currentPageNumber, term)
+    const {usersPerPage, currentPageNumber, filter} = this.props;
+    this.props.getUsers(usersPerPage, currentPageNumber, filter)
   }
 
   onPageChanged = (pageNumber: number) => {
-    const {usersPerPage, term} = this.props;
-    this.props.getUsers(usersPerPage, pageNumber, term)
+    const {usersPerPage, filter} = this.props;
+    this.props.getUsers(usersPerPage, pageNumber, filter)
   }
 
   render() {
@@ -59,7 +59,7 @@ class UsersContainer extends React.Component<PropsType> {
               // toggleFollowing = {this.props.toggleFollowing}
               countOfDisplayingPages = {this.props.countOfDisplayingPages}
               onPageChanged = {this.onPageChanged}
-              term={this.props.term}
+              filter={this.props.filter}
               getUsers = {this.props.getUsers}/>
           { this.props.isFetching ? <Preloader /> : null }
         </>
@@ -77,7 +77,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     isFetching: state.usersPage.isFetching,
     usersWithToggleFollowing: state.usersPage.usersWithToggleFollowing,
     countOfDisplayingPages: state.usersPage.countOfDisplayingPages,
-    term: state.usersPage.term
+    filter: getUsersFilter(state)
     // paginatorPagesBlockNumber: state.usersPage.paginatorPagesBlockNumber
   }
 }
