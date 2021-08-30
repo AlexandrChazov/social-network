@@ -3,7 +3,7 @@ import './App.css';
 import News from "./components/News/News";
 import {HashRouter, Redirect, Route, Switch} from "react-router-dom";
 import NavbarContainer from "./components/Navbar/NavbarContainer";
-import UsersContainer from "./components/Users/UsersContainer";
+import {UsersPage} from "./components/Users/UsersPage";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import {connect, Provider} from "react-redux";
@@ -13,14 +13,14 @@ import store, {AppStateType} from "./redux/redux-store";
 import {withSuspense} from "./Hoc/withSuspense";
 
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
-const LoginContainer = React.lazy(() => import("./components/Login/LoginContainer"));
+const Login = React.lazy(() => import("./components/Login/Login"));
 
 type MapPropsType = ReturnType<typeof mapStateToProps>;
 type DispatchPropsType = {
   initializeApp: () => void
 }
 
-const SuspendedLogin = withSuspense(LoginContainer);
+const SuspendedLogin = withSuspense(Login);
 const SuspendedDialogs = withSuspense(DialogsContainer);
 
 class App extends React.Component<MapPropsType & DispatchPropsType> {
@@ -54,7 +54,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                 {/*<Route path="/Dialogs" render={() => withSuspense(DialogsContainer)}/> заменяем строчкой ниже, т.к. TS хочет видеть тут отрисовку компоненты, а не вызов функции*/}
                 <Route path="/Dialogs" render={() => <SuspendedDialogs/>}/>
                 <Route path="/News" render={() => <News/>}/>
-                <Route path="/Users" render={() => <UsersContainer title="Список пользователей" />}/>
+                <Route path="/Users" render={() => <UsersPage title="Список пользователей" />}/>
                 {/*<Route path="/Login" render={() => withSuspense(LoginContainer)}/> заменяем строчкой ниже, т.к. TS хочет видеть тут отрисовку компоненты, а не вызов функции*/}
                 <Route path="/Login" render={() => <SuspendedLogin/>}/>
                 <Route path="*" render={() => <div>404 NOT FOUND</div>}/>

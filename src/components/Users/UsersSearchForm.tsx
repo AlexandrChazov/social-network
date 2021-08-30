@@ -8,7 +8,6 @@ type UsersSearchFormObjectType = {
 }
 
 type PropsType = {
-  filter: FilterType
   usersPerPage: number
   currentPageNumber: number
   getUsers: (usersPerPage: number, currentPageNumber: number, filter: FilterType) => void

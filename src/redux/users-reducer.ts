@@ -22,7 +22,7 @@ export const usersActions = {
 
 const initialState = {
   users: [] as Array<UserType>,
-  usersPerPage: 100,
+  usersPerPage: 10,
   currentPageNumber: 1,
   totalUsersCount: 0,
   isFetching: true,

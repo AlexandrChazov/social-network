@@ -1,43 +1,62 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Paginator} from "../Common/Paginator/Paginator";
-import {UserType} from "../../Types/types";
 import {User} from "./User";
 import UsersSearchForm from "./UsersSearchForm";
-import {FilterType} from "../../redux/users-reducer";
+import {FilterType, follow, getUsers, unFollow} from "../../redux/users-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {
+  getCountOfDisplayingPages,
+  getCurrentPageNumber,
+  getTotalUsersCount,
+  getUsersFilter,
+  getUsersWithToggleFollowing,
+  setUsersPerPage,
+  setUsersSelector
+} from "../../redux/users-selectors";
 
-type PropsType = {
-    totalUsersCount: number
-    usersPerPage: number
-    currentPageNumber: number
-    countOfDisplayingPages: number
-    usersWithToggleFollowing: Array<number>
-    users: Array<UserType>
-    filter: FilterType
-    onPageChanged: (pageNumber: number) => void
-    follow: (id:number) => void
-    unFollow: (id:number) => void
-    getUsers: (usersPerPage: number, currentPageNumber: number, filter: FilterType) => void
-}
+const Users: React.FC = () => {
 
-const Users: React.FC<PropsType> = (props) => {
+  useEffect(() => {
+    getUsers_(usersPerPage, currentPageNumber, filter)
+  }, [])
+
+  const dispatch = useDispatch();
+
+  const users = useSelector(setUsersSelector);
+  const totalUsersCount = useSelector(getTotalUsersCount);
+  const currentPageNumber = useSelector(getCurrentPageNumber);
+  const usersPerPage = useSelector(setUsersPerPage);
+  const filter = useSelector(getUsersFilter);
+  const usersWithToggleFollowing = useSelector(getUsersWithToggleFollowing);
+  const countOfDisplayingPages = useSelector(getCountOfDisplayingPages);
+
+  const follow_ = (id:number) => {dispatch(follow(id))};
+  const unFollow_ = (id:number) => {dispatch(unFollow(id))};
+  const getUsers_ = (usersPerPage: number, currentPageNumber: number, filter: FilterType) => {
+    dispatch(getUsers(usersPerPage, currentPageNumber, filter))
+  };
+
+  const onPageChanged = (pageNumber: number) => {
+    getUsers_(usersPerPage, pageNumber, filter)
+  }
+
   return (
       <div>
-        <UsersSearchForm filter={props.filter}
-                         usersPerPage={props.usersPerPage}
-                         currentPageNumber={props.currentPageNumber}
-                         getUsers={props.getUsers}/>
-        <Paginator totalUsersCount={props.totalUsersCount}
-                   usersPerPage={props.usersPerPage}
-                   currentPageNumber={props.currentPageNumber}
-                   onPageChanged={props.onPageChanged}
-                   countOfDisplayingPages = {props.countOfDisplayingPages}
+        <UsersSearchForm usersPerPage={usersPerPage}
+                         currentPageNumber={currentPageNumber}
+                         getUsers={getUsers_}/>
+        <Paginator totalUsersCount={totalUsersCount}
+                   usersPerPage={usersPerPage}
+                   currentPageNumber={currentPageNumber}
+                   onPageChanged={onPageChanged}
+                   countOfDisplayingPages = {countOfDisplayingPages}
         />
         <div>
-          {props.users.map((user) => <User key={user.id}
+          {users.map((user) => <User key={user.id}
                                            user={user}
-                                           follow={props.follow}
-                                           unFollow={props.unFollow}
-                                           usersWithToggleFollowing={props.usersWithToggleFollowing} />)}
+                                           follow={follow_}
+                                           unFollow={unFollow_}
+                                           usersWithToggleFollowing={usersWithToggleFollowing} />)}
         </div>
       </div>
   )

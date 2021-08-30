@@ -9,6 +9,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {ProfileType} from "../../Types/types";
 import {FormValues} from "./ProfileInfo/ProfileDataForm";
 import {PrimaryResponseType} from "../../api/api";
+import withAuthRedirect from "../../Hoc/withAuthRedirect";
 
 type MapStatePropsType = {
   profile: ProfileType
@@ -73,5 +74,6 @@ const mapStateToProps = (state: AppStateType) => {
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {getProfileInfo, requestStatus: profileActions.requestStatus, updateStatus, setPhoto: setPhoto, setProfile}),
-    withRouter
+    withRouter,
+  withAuthRedirect
 )(ProfileContainer)
