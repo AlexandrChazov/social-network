@@ -3,6 +3,8 @@ import {ChatsArrayType, ProfileType} from "../Types/types";
 import {call, put, takeEvery} from "redux-saga/effects";
 import {InferActionsTypes, PrimaryThunkType} from "./redux-store";
 import {profileAPI} from "../api/profile-api";
+import {ChangeEvent} from "react";
+import {FormValues} from "../components/Profile/ProfileInfo/ProfileDataForm";
 
 export const profileActions = {
     addPostActionCreator: (myMessage: string) => ({
@@ -71,7 +73,7 @@ export const updateStatus = (status: string): ThunkType => {
     };
 };
 
-export const setPhoto = (event: Event): ThunkType => {
+export const setPhoto = (event: ChangeEvent<HTMLInputElement>): ThunkType => {
     return async (dispatch) => {
         const target = event.target as HTMLInputElement;
         const response = await profileAPI.savePhoto((target.files as FileList)[0])
@@ -81,7 +83,7 @@ export const setPhoto = (event: Event): ThunkType => {
     }
 }
 
-export const setProfile = (profile: ProfileType, userID: number): SetProfileThunkType=> {
+export const setProfile = (profile: FormValues, userID: number): SetProfileThunkType=> {
     return async (dispatch) => {
         const response = await profileAPI.sentProfileInfo(profile);
         if (response.resultCode === ResultCodesEnum.Success) {
@@ -152,5 +154,5 @@ export default profileReducer;
 
 type ActionsTypes = InferActionsTypes<typeof profileActions>;
 type ThunkType = PrimaryThunkType<ActionsTypes>;
-type SetProfileThunkType = PrimaryThunkType<ActionsTypes, Promise<PrimaryResponseType>>
+export type SetProfileThunkType = PrimaryThunkType<ActionsTypes, Promise<PrimaryResponseType>>
 type InitialStateType = typeof initialState;

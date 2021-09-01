@@ -1,11 +1,17 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
+import {updateStatus} from "../../../redux/profile-reducer";
 
 type PropsType = {
   status:string
-  updateStatus: (status: string) => void
 }
 
-const ProfileStatus: React.FC<PropsType> = props => {
+const ProfileStatus: React.FC<PropsType> = (props) => {
+
+  const dispatch = useDispatch();
+  const updateStatus_ = (status: string) => {
+    dispatch(updateStatus(status))
+  }
 
   const [isEditModeOn, setEditMode] = useState(false);
 
@@ -25,7 +31,7 @@ const ProfileStatus: React.FC<PropsType> = props => {
   //
   const editModeOff = () => {
     setEditMode(false);
-    props.updateStatus(status)
+    updateStatus_(status)
   }
 
     return (

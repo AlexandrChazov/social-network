@@ -16,10 +16,6 @@ import {
 
 const Users: React.FC = () => {
 
-  useEffect(() => {
-    getUsers_(usersPerPage, currentPageNumber, filter)
-  }, [])
-
   const dispatch = useDispatch();
 
   const users = useSelector(setUsersSelector);
@@ -35,6 +31,10 @@ const Users: React.FC = () => {
   const getUsers_ = (usersPerPage: number, currentPageNumber: number, filter: FilterType) => {
     dispatch(getUsers(usersPerPage, currentPageNumber, filter))
   };
+
+  useEffect(() => {
+    getUsers_(usersPerPage, currentPageNumber, filter)
+  }, [usersPerPage, currentPageNumber, filter])
 
   const onPageChanged = (pageNumber: number) => {
     getUsers_(usersPerPage, pageNumber, filter)

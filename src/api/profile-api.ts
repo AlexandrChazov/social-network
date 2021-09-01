@@ -1,5 +1,6 @@
 import {ProfileType} from "../Types/types";
 import {instance, PrimaryResponseType} from "./api";
+import {FormValues} from "../components/Profile/ProfileInfo/ProfileDataForm";
 
 type SavePhotoDataType = {
     photos: {
@@ -33,7 +34,7 @@ export const profileAPI = {
             }
         }).then(response => response.data);
     },
-    sentProfileInfo(profile: ProfileType) {
+    sentProfileInfo(profile: FormValues) {
         return instance.put<PrimaryResponseType>("profile", profile).then(response => {
             return response.data;
         })

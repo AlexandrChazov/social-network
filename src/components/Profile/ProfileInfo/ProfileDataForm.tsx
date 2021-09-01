@@ -10,13 +10,13 @@ export type FormValues = {
     "aboutMe": string
     "lookingForAJob": string
     "lookingForAJobDescription": string
-    "contacts.facebook": string
-    "contacts.website": string
-    "contacts.vk": string
-    "contacts.twitter": string
-    "contacts.instagram": string
-    "contacts.youtube": string
     "contacts.github": string
+    "contacts.vk": string
+    "contacts.facebook": string
+    "contacts.instagram": string
+    "contacts.twitter": string
+    "contacts.website": string
+    "contacts.youtube": string
     "contacts.mainLink": string
 }
 
@@ -29,6 +29,7 @@ type PropsType = {
 }
 
 const ProfileDataForm: React.FC<PropsType> = ({profile, setProfile, setEditMode}) => {
+
   const [errorMessages, setErrorMessages] = useState([] as Array<string>);
   return (
       <div>

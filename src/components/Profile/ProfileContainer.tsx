@@ -1,79 +1,82 @@
-import React, {ChangeEvent} from 'react';
-import {connect} from "react-redux";
+import React, {useEffect} from 'react';
+import {connect, useDispatch, useSelector} from "react-redux";
 import Profile from "./Profile";
-import {getProfileInfo, profileActions, setPhoto, setProfile, updateStatus} from "../../redux/profile-reducer";
-import {RouteComponentProps, withRouter} from "react-router-dom";
-// import withAuthRedirect from "../Hoc/withAuthRedirect";
+import {getProfileInfo, profileActions, setProfile} from "../../redux/profile-reducer";
+import {RouteComponentProps, useParams, withRouter} from "react-router-dom";
 import {compose} from "redux";
 import {AppStateType} from "../../redux/redux-store";
-import {ProfileType} from "../../Types/types";
 import {FormValues} from "./ProfileInfo/ProfileDataForm";
 import {PrimaryResponseType} from "../../api/api";
 import withAuthRedirect from "../../Hoc/withAuthRedirect";
+import {getAutorizedUserId} from "../../redux/auth-selectors";
 
-type MapStatePropsType = {
-  profile: ProfileType
-  status: string
-  autorizedUserId: number
-}
+type MapStatePropsType = {}
 
 type DispatchPropsType = {
-  getProfileInfo: (userID :string|number|void)=> void,
-  requestStatus: (userID :string|number|void)=> void,
-  updateStatus: (status: string)=> void,
-  setPhoto: (event: ChangeEvent<HTMLInputElement>)=> void,
   setProfile: (profile: FormValues, userID: number) => PrimaryResponseType
 }
 
 type PathParamsType = {
-  userID: string | undefined
+}
+
+type ParamsType = {
+  userID: string
 }
 
 type PropsType = MapStatePropsType & DispatchPropsType & RouteComponentProps<PathParamsType>;
 
-class ProfileContainer extends React.Component<PropsType> {
+const ProfileContainer: React.FC<PropsType> = (props) => {
 
-  refreshProfile() {
-    const userID = this.props.match.params.userID || this.props.autorizedUserId || this.props.history.push("/login");
-    this.props.getProfileInfo(userID);
-    this.props.requestStatus(userID);
+  const params:ParamsType = useParams();
+  const userID = +params.userID;
+  const autorizedUserId = useSelector(getAutorizedUserId);
+
+  const dispatch = useDispatch();
+  const getProfileInfo_ = (userID: number) => {
+    dispatch(getProfileInfo(userID))
+  };
+  const requestStatus = (userID: number) => {
+    dispatch(profileActions.requestStatus(userID))
   }
 
-  componentDidMount() {
-    this.refreshProfile()
-  }
-
-  componentDidUpdate(prevProps: PropsType, prevState: PropsType) {
-    if (this.props.match.params.userID !== prevProps.match.params.userID) {
-      this.refreshProfile()
+  const refreshProfile = () => {
+    if (userID) {
+      getProfileInfo_(userID);
+      requestStatus(userID);
+    } else if (autorizedUserId) {
+      getProfileInfo_(autorizedUserId);
+      requestStatus(autorizedUserId);
+    } else {
+      props.history.push("/login");
     }
   }
 
-  render() {
-    return (
-        <div>
-          <Profile {...this.props}
-                   profile = {this.props.profile}
-                   status = {this.props.status}
-                   updateStatus = {this.props.updateStatus}
-                   isMyProfilePage = {!this.props.match.params.userID}
-                   setPhoto = {this.props.setPhoto}
-                   setProfile = {this.props.setProfile}/>
-        </div>
-    )
-  }
+  useEffect(() => {
+    refreshProfile()
+  }, []);
+
+  useEffect(() => {
+    refreshProfile()
+  }, [userID])
+
+  return (
+    <div>
+      <Profile {...props}
+               isMyProfilePage={!userID}
+               setProfile={props.setProfile}/>
+    </div>
+  )
 }
 
-const mapStateToProps = (state: AppStateType) => {
+const mapStateToProps = () => {
   return {
-    profile: state.profilePage.profile,
-    status: state.profilePage.status,
-    autorizedUserId: state.auth.id
   }
 }
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getProfileInfo, requestStatus: profileActions.requestStatus, updateStatus, setPhoto: setPhoto, setProfile}),
-    withRouter,
+  connect(mapStateToProps, {
+    setProfile
+  }),
+  withRouter,
   withAuthRedirect
 )(ProfileContainer)
