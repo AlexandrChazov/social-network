@@ -4,7 +4,6 @@ import Profile from "./Profile";
 import {getProfileInfo, profileActions, setProfile} from "../../redux/profile-reducer";
 import {RouteComponentProps, useParams, withRouter} from "react-router-dom";
 import {compose} from "redux";
-import {AppStateType} from "../../redux/redux-store";
 import {FormValues} from "./ProfileInfo/ProfileDataForm";
 import {PrimaryResponseType} from "../../api/api";
 import withAuthRedirect from "../../Hoc/withAuthRedirect";
@@ -69,8 +68,7 @@ const ProfileContainer: React.FC<PropsType> = (props) => {
 }
 
 const mapStateToProps = () => {
-  return {
-  }
+  return {}
 }
 
 export default compose<React.ComponentType>(

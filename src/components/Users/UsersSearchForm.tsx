@@ -1,6 +1,7 @@
 import React from "react";
 import {Field, Form, Formik} from "formik";
-import {FilterType} from "../../redux/users-reducer";
+import {FilterType, usersActions} from "../../redux/users-reducer";
+import {useDispatch} from "react-redux";
 
 type UsersSearchFormObjectType = {
   term: string
@@ -14,15 +15,20 @@ type PropsType = {
 }
 
 const UsersSearchForm: React.FC<PropsType> = (props) => {
+
+  const dispatch = useDispatch();
+  const setCurrentPage_ = (pageNumber: number) => dispatch(usersActions.setCurrentPage(pageNumber));
+
   const onSubmit = (values: UsersSearchFormObjectType, {setSubmitting}: { setSubmitting: (isSubmitting: boolean) => void }) => {
       const filter = {
         term: values.term,
         friend: values.friend === "null" ? null : values.friend === "true" ? true : false
       }
       props.getUsers(props.usersPerPage, 1, filter); // значение values вместо filter мы передать не можем
-      setSubmitting(false);                               // иначе на сервер пойдут запросы со значениеми
-  }                                                                 // values.friend = "true", "null", "false"
-  return (                                                          // а не values.friend = true, null, false
+      setCurrentPage_(1);                                 // иначе на сервер пойдут запросы со значениеми
+      setSubmitting(false);                               // values.friend = "true", "null", "false"
+  }                                                                 // а не values.friend = true, null, false
+  return (
     <div>
       <Formik
         initialValues={{term: '', friend: "null"}}

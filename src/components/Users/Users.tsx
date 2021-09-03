@@ -13,6 +13,7 @@ import {
   setUsersPerPage,
   setUsersSelector
 } from "../../redux/users-selectors";
+import { useHistory } from "react-router-dom";
 
 const Users: React.FC = () => {
 
@@ -32,9 +33,18 @@ const Users: React.FC = () => {
     dispatch(getUsers(usersPerPage, currentPageNumber, filter))
   };
 
+  const history = useHistory();
+
   useEffect(() => {
     getUsers_(usersPerPage, currentPageNumber, filter)
   }, [usersPerPage, currentPageNumber, filter])
+
+  useEffect(() => {
+    history.push({
+      pathname: `/Users`,
+      search: `?term=${filter.term}&friend=${filter.friend}&page=${currentPageNumber}`
+    })
+  }, [filter, currentPageNumber])
 
   const onPageChanged = (pageNumber: number) => {
     getUsers_(usersPerPage, pageNumber, filter)
