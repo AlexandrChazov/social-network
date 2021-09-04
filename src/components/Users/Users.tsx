@@ -14,10 +14,9 @@ import {
   setUsersSelector
 } from "../../redux/users-selectors";
 import { useHistory } from "react-router-dom";
+import * as queryString from "querystring";
 
 const Users: React.FC = () => {
-
-  const dispatch = useDispatch();
 
   const users = useSelector(setUsersSelector);
   const totalUsersCount = useSelector(getTotalUsersCount);
@@ -26,6 +25,8 @@ const Users: React.FC = () => {
   const filter = useSelector(getUsersFilter);
   const usersWithToggleFollowing = useSelector(getUsersWithToggleFollowing);
   const countOfDisplayingPages = useSelector(getCountOfDisplayingPages);
+
+  const dispatch = useDispatch();
 
   const follow_ = (id:number) => {dispatch(follow(id))};
   const unFollow_ = (id:number) => {dispatch(unFollow(id))};
@@ -36,8 +37,31 @@ const Users: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    getUsers_(usersPerPage, currentPageNumber, filter)
-  }, [usersPerPage, currentPageNumber, filter])
+    const searchString = history.location.search.slice(1);
+    const filterFromURL = queryString.parse(searchString) as {term: string, friend: string, page: string};
+
+    let actualPage = currentPageNumber;
+    let newFilter = filter;
+
+    if (filterFromURL.term) newFilter = {...newFilter, term: filterFromURL.term};
+    if (filterFromURL.page) actualPage = Number(filterFromURL.page);
+
+    switch(filterFromURL.friend) {
+      case "null": {
+        newFilter = {...newFilter, friend: null};
+        break;
+      }
+      case "true": {
+        newFilter = {...newFilter, friend: true};
+        break;
+      }
+      case "false": {
+        newFilter = {...newFilter, friend: false};
+        break;
+      }
+    }
+    getUsers_(usersPerPage, actualPage, newFilter)
+  },[])
 
   useEffect(() => {
     history.push({

@@ -1,7 +1,8 @@
 import React from "react";
 import {Field, Form, Formik} from "formik";
 import {FilterType, usersActions} from "../../redux/users-reducer";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {getUsersFilter} from "../../redux/users-selectors";
 
 type UsersSearchFormObjectType = {
   term: string
@@ -15,6 +16,8 @@ type PropsType = {
 }
 
 const UsersSearchForm: React.FC<PropsType> = (props) => {
+
+  const filter = useSelector(getUsersFilter) as {term: string, friend: null | boolean};
 
   const dispatch = useDispatch();
   const setCurrentPage_ = (pageNumber: number) => dispatch(usersActions.setCurrentPage(pageNumber));
@@ -31,7 +34,8 @@ const UsersSearchForm: React.FC<PropsType> = (props) => {
   return (
     <div>
       <Formik
-        initialValues={{term: '', friend: "null"}}
+        enableReinitialize
+        initialValues={{term: filter.term, friend: String(filter.friend) as "null" | "true" | "false"}}
         onSubmit={onSubmit}
       >
         {({isSubmitting}) => (
