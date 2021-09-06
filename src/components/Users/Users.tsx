@@ -13,8 +13,14 @@ import {
   setUsersPerPage,
   setUsersSelector
 } from "../../redux/users-selectors";
-import { useHistory } from "react-router-dom";
-import * as queryString from "querystring";
+import {useHistory} from "react-router-dom";
+import * as queryString from "querystring";     // эта библиотека по умолчанию идёт с CRA
+
+type QueryParamsType = {
+  term?: string
+  friend?: string
+  page?: string
+}
 
 const Users: React.FC = () => {
 
@@ -64,9 +70,16 @@ const Users: React.FC = () => {
   },[])
 
   useEffect(() => {
+    const query: QueryParamsType = {};
+
+    if (filter.term) query.term = filter.term
+    if (filter.friend !== null) query.friend = String(filter.friend)
+    if (currentPageNumber !== 1) query.page = String(currentPageNumber)
+
     history.push({
       pathname: `/Users`,
-      search: `?term=${filter.term}&friend=${filter.friend}&page=${currentPageNumber}`
+      // search: `?term=${filter.term}&friend=${filter.friend}&page=${currentPageNumber}`
+      search: queryString.stringify(query)
     })
   }, [filter, currentPageNumber])
 

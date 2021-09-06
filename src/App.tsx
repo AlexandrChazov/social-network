@@ -14,6 +14,7 @@ import {withSuspense} from "./Hoc/withSuspense";
 
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
 const Login = React.lazy(() => import("./components/Login/Login"));
+const ChatPage = React.lazy(() => import("./components/pages/Chat/ChatPage"))
 
 type MapPropsType = ReturnType<typeof mapStateToProps>;
 type DispatchPropsType = {
@@ -22,6 +23,7 @@ type DispatchPropsType = {
 
 const SuspendedLogin = withSuspense(Login);
 const SuspendedDialogs = withSuspense(DialogsContainer);
+const SuspendedChatPage = withSuspense(ChatPage);
 
 class App extends React.Component<MapPropsType & DispatchPropsType> {
 
@@ -56,7 +58,8 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                 <Route path="/News" render={() => <News/>}/>
                 <Route path="/Users" render={() => <UsersPage title="Список пользователей" />}/>
                 {/*<Route path="/Login" render={() => withSuspense(LoginContainer)}/> заменяем строчкой ниже, т.к. TS хочет видеть тут отрисовку компоненты, а не вызов функции*/}
-                <Route path="/Login" render={() => <SuspendedLogin/>}/>
+                <Route path="/Login" render={() => <SuspendedLogin/>} />
+                <Route path="/Chat" render={() => <SuspendedChatPage/>} />
                 <Route path="*" render={() => <div>404 NOT FOUND</div>}/>
               </Switch>
             </div>

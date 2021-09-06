@@ -4,9 +4,10 @@ import {FilterType, usersActions} from "../../redux/users-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {getUsersFilter} from "../../redux/users-selectors";
 
+type FriendFormType = "null" | "true" | "false";
 type UsersSearchFormObjectType = {
   term: string
-  friend: "null" | "true" | "false"
+  friend: FriendFormType
 }
 
 type PropsType = {
@@ -34,8 +35,8 @@ const UsersSearchForm: React.FC<PropsType> = (props) => {
   return (
     <div>
       <Formik
-        enableReinitialize
-        initialValues={{term: filter.term, friend: String(filter.friend) as "null" | "true" | "false"}}
+        enableReinitialize   // разрешает каждый рендер задавать начальное значение
+        initialValues={{term: filter.term, friend: String(filter.friend) as FriendFormType}}
         onSubmit={onSubmit}
       >
         {({isSubmitting}) => (
