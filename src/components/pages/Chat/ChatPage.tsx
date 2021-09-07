@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-const webSocketChanel: WebSocket = new WebSocket("wss://social-network.samuraijs.com/handlers/ChatHandler.ashx");
+let webSocketChanel: WebSocket;
 
 const ChatPage = () => {
   return (
@@ -16,9 +16,16 @@ const Chat = () => {
   const [myMessage, setMyMessage] = useState('')
 
   useEffect(() => {
-    webSocketChanel.addEventListener("message", (event: MessageEvent) => {
+    webSocketChanel = new WebSocket("wss://social-network.samuraijs.com/handlers/ChatHandler.ashx");
+    const listener = (event: MessageEvent) => {
       setMessages((prevMessages) => [...prevMessages, ...JSON.parse(event.data)])
-    })
+    };
+    webSocketChanel.addEventListener("message", listener);
+    debugger
+    return () => {
+      webSocketChanel.removeEventListener("message", listener);
+      webSocketChanel.close()
+    }
   }, []);
 
   const onSendMessage = (mess: string) => {
