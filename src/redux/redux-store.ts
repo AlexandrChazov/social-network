@@ -8,6 +8,7 @@ import authReducer from "./auth-reducer";
 import {appReducer} from "./app-reducer";
 import fakeReducer from "./fake-reducer";
 import createSagaMiddleware from "redux-saga";
+import chatReducer from "./chat-reducer";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -18,7 +19,8 @@ const reducers = combineReducers({
   usersPage: usersReducer,
   auth: authReducer,
   app: appReducer,
-  fake: fakeReducer
+  fake: fakeReducer,
+  chat: chatReducer
 });
 
 type reducersType = typeof reducers; //  вернёт что-то вроде функции (globalstate: AppStateType) => AppStateType

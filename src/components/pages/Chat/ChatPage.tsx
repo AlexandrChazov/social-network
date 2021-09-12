@@ -1,4 +1,8 @@
 import React, {useEffect, useState} from "react";
+import {ChatMessageType} from "../../../api/chat-api";
+import {useDispatch, useSelector} from "react-redux";
+import {sendMessage, startMessagesListening, stopMessagesListening} from "../../../redux/chat-reducer";
+import {AppStateType} from "../../../redux/redux-store";
 
 let webSocketChanel: WebSocket;
 
@@ -12,27 +16,24 @@ const ChatPage = () => {
 
 const Chat = () => {
 
-  const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [myMessage, setMyMessage] = useState('')
 
-  useEffect(() => {
-    webSocketChanel = new WebSocket("wss://social-network.samuraijs.com/handlers/ChatHandler.ashx");
-    const listener = (event: MessageEvent) => {
-      setMessages((prevMessages) => [...prevMessages, ...JSON.parse(event.data)])
-    };
-    webSocketChanel.addEventListener("message", listener);
-    debugger
-    return () => {
-      webSocketChanel.removeEventListener("message", listener);
-      webSocketChanel.close()
-    }
-  }, []);
+  const messages = useSelector((state: AppStateType) => state.chat.messages)
 
-  const onSendMessage = (mess: string) => {
-    if (!mess) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(startMessagesListening())
+    return () => {
+      dispatch(stopMessagesListening())
+    }
+  }, [])
+
+  const onSendMessage = (message: string) => {
+    if (!message) {
       return
     }
-    webSocketChanel.send(mess);
+    dispatch(sendMessage(message));
     setMyMessage('')
   }
 
@@ -49,13 +50,6 @@ const Chat = () => {
       </div>
     </div>
   )
-}
-
-export type ChatMessageType = {
-  message: string
-  photo: string
-  userId: number
-  userName: string
 }
 
 type MessagePropsType = {
